@@ -19,7 +19,7 @@ namespace File_Processor.Services
                 //var entityToUpdate = (from c in db.Categories
                 //                      where c.category.Equals(cat.category)
                 //                      select c).FirstOrDefault();
-
+                
                 var entityToUpdate = db.Categories.FirstOrDefault(e => e.category.Equals(cat.category));
 
                 if (entityToUpdate != null)

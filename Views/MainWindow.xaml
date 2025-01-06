@@ -7,9 +7,7 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        <TextBox Name="categoryFilePath" HorizontalAlignment="Left" Height="38" Margin="203,159,0,0" TextWrapping="Wrap" Text="Input a File Path" VerticalAlignment="Top" Width="152"/>
-        <TextBox Name="categoryName" HorizontalAlignment="Left" Height="38" Margin="376,159,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="142"/>
-        <Button Content="Button" Click="Add_Category" HorizontalAlignment="Left" Margin="334,202,0,0" VerticalAlignment="Top" Width="62"/>
+        <Frame Content="Frame" Name="MainPage" HorizontalAlignment="Center" Height="450" VerticalAlignment="Center" Width="800"/>
 
     </Grid>
 </Window>
