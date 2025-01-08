@@ -5,14 +5,14 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:File_Processor.Views"
       mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
+      d:DesignHeight="420" d:DesignWidth="800"
       Title="Page1">
 
     <Grid>
         <TextBox Name="categoryFilePath" HorizontalAlignment="Left" Height="38" Margin="203,159,0,0" TextWrapping="Wrap" Text="Input a File Path" VerticalAlignment="Top" Width="152"/>
         <TextBox Name="categoryName" HorizontalAlignment="Left" Height="38" Margin="376,159,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="142"/>
         <Button Content="Button" Click="Add_Category" HorizontalAlignment="Left" Margin="334,202,0,0" VerticalAlignment="Top" Width="62"/>
-        <Button Content="Button" Click="Change_To_Setting_Page" HorizontalAlignment="Left" Margin="711,40,0,0" VerticalAlignment="Top"/>
+        <Button Content="Setting" Click="Change_To_Setting_Page" HorizontalAlignment="Left" Padding="3,0,3,0" Margin="745,10,0,0" VerticalAlignment="Top"/>
 
     </Grid>
 </Page>

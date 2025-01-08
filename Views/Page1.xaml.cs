@@ -47,7 +47,9 @@ namespace File_Processor.Views
 
         private void Change_To_Setting_Page(object sender, RoutedEventArgs e)
         {
-
+            MainWindow mainWindow = (MainWindow) Window.GetWindow(this);
+            mainWindow.MainFrame.Source = new Uri("Page2.xaml", UriKind.Relative);
+            //NavigationService.Navigate(new Uri("Page2.xaml", UriKind.Relative));
         }
     }
 }

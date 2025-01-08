@@ -1,0 +1,47 @@
+﻿<Page x:Class="File_Processor.Views.Page2"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:File_Processor.Views"
+      mc:Ignorable="d" 
+      d:DesignHeight="420" d:DesignWidth="800"
+      Title="Page2">
+
+    <Grid>
+        <TabControl TabStripPlacement="Top" Height="410" Width="800" VerticalAlignment="Bottom" Margin="0,0,0,0">
+            <TabItem>
+                <TabItem.Header>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock>Organization</TextBlock>
+                    </StackPanel>
+                </TabItem.Header>
+                <StackPanel>
+                    <Frame></Frame>
+                </StackPanel>
+            </TabItem>
+            <TabItem>
+                <TabItem.Header>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock>Dedupliation</TextBlock>
+                    </StackPanel>
+                </TabItem.Header>
+                <StackPanel>
+                    <Frame></Frame>
+                </StackPanel>
+            </TabItem>
+            <TabItem>
+                <TabItem.Header>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock>Security</TextBlock>
+                    </StackPanel>
+                </TabItem.Header>
+                <StackPanel>
+                    <Frame></Frame>
+                </StackPanel>
+            </TabItem>
+        </TabControl>
+        <Button Content="Main" Click="Change_To_Main_Page" HorizontalAlignment="Left" Padding="5,0,5,0" Margin="745,10,0,0" VerticalAlignment="Top"/>
+
+    </Grid>
+</Page>

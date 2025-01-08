@@ -24,9 +24,12 @@ namespace File_Processor
         public MainWindow()
         {
             InitializeComponent();
-            MainPage.Source = new Uri("Page1.xaml", UriKind.Relative);
+            MainFrame.Source = new Uri("Page1.xaml", UriKind.Relative);
             //categoryController = new CategoryController(this);
         }
+
+
+
 
         //private void Add_Category(object sender, RoutedEventArgs e)
         //{
