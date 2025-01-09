@@ -9,18 +9,18 @@ namespace File_Processor.Controllers
 {
     internal class CategoryClassificationController
     {
-        private MainWindow _view;
+        //private MainWindow _view;
         private CategoryClassificationService _service;
 
-        public CategoryClassificationController(MainWindow view)
+        public CategoryClassificationController()
         {
-            _view = view;
+            //_view = view;
             _service = new CategoryClassificationService();
         }
 
-        public bool AddCategoryClassification()
+        public bool AddCategoryClassification(string category, string pattern)
         {
-            return false;
+            return _service.AddCategoryClassificationToDb(category, pattern);
         }
     }
 }

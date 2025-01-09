@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using File_Processor.Models;
 
 namespace File_Processor.Services
 {
@@ -10,11 +11,23 @@ namespace File_Processor.Services
     {
         public CategoryClassificationService() { }
 
-        public bool AddCategoryClassificationToDb() 
+        public bool AddCategoryClassificationToDb(string category, string pattern) 
         {
             // Implement adding of category classification
             // Make sure to restrict foreign key policy and add 1 always for key and 2 for regex
-            return false;
+            bool result = false;
+            using (var db = new DbDefinition())
+            {
+                var categoryExists = db.Categories.Find(category);
+                if (categoryExists == null) { return false; }
+
+                db.Add(new CategoryClassificationModel(category, pattern));
+                result = true;
+
+                try { db.SaveChanges(); } catch { result = false; }
+            }
+
+            return result;
         }
     }
 }

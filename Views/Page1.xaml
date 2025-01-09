@@ -9,9 +9,6 @@
       Title="Page1">
 
     <Grid>
-        <TextBox Name="categoryFilePath" HorizontalAlignment="Left" Height="38" Margin="203,159,0,0" TextWrapping="Wrap" Text="Input a File Path" VerticalAlignment="Top" Width="152"/>
-        <TextBox Name="categoryName" HorizontalAlignment="Left" Height="38" Margin="376,159,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="142"/>
-        <Button Content="Button" Click="Add_Category" HorizontalAlignment="Left" Margin="334,202,0,0" VerticalAlignment="Top" Width="62"/>
         <Button Content="Setting" Click="Change_To_Setting_Page" HorizontalAlignment="Left" Padding="3,0,3,0" Margin="745,10,0,0" VerticalAlignment="Top"/>
 
     </Grid>

@@ -13,11 +13,19 @@
             <TabItem>
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock>Organization</TextBlock>
+                        <TextBlock>Categories</TextBlock>
+                        
                     </StackPanel>
                 </TabItem.Header>
                 <StackPanel>
-                    <Frame></Frame>
+                    <Button Content="Add New Category" Name="AddCategory" Click="AddCategory_Click" Margin="0,10,0,0"/>
+                    <ListView Height="200" Margin="0,1,0,0" d:ItemsSource="{d:SampleData ItemCount=5}">
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn/>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
                 </StackPanel>
             </TabItem>
             <TabItem>

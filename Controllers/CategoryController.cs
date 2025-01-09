@@ -12,13 +12,13 @@ namespace File_Processor.Controllers
 {
     class CategoryController
     {
-        private Page _page;
+        //private Page _page;
         //private MainWindow _view;
         private CategoryService _service;
 
-        public CategoryController(Page page)
+        public CategoryController()
         {
-            _page = page;
+            //_page = page;
             //_view = view;
             _service = new CategoryService();
         }

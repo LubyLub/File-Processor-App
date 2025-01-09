@@ -31,7 +31,7 @@ namespace File_Processor.Services
                 {
                     db.Add(cat); result = 1;
                 }
-                try { db.SaveChanges(); } catch { }
+                try { db.SaveChanges(); } catch { result = 0; }
             }
             return result;
         }
