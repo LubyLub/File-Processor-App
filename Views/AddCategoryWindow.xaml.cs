@@ -22,11 +22,13 @@ namespace File_Processor.Views
     {
         private CategoryController categoryController;
         private CategoryClassificationController categoryClassificationController;
-        public AddCategoryWindow()
+        private Page2 _page;
+        public AddCategoryWindow(Page2 page2)
         {
             InitializeComponent();
             categoryController = new CategoryController();
             categoryClassificationController = new CategoryClassificationController();
+            _page = page2;
         }
 
         private void Add_Category(object sender, RoutedEventArgs e)
@@ -48,6 +50,7 @@ namespace File_Processor.Views
             {
                 Close();
             }
+            _page.LoadCategories();
         }
 
         private String[] parseClassificationText(String str)

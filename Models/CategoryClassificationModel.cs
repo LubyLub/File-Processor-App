@@ -14,7 +14,7 @@ namespace File_Processor.Models
     {
         public CategoryModel categoryModel { get; set; }
         public string category { get; set; }
-        public string pattern { get; set; }
+        public String pattern { get; set; }
 
         public CategoryClassificationModel(string category, string pattern) 
         { 

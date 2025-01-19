@@ -9,41 +9,54 @@
       Title="Page2">
 
     <Grid>
-        <TabControl TabStripPlacement="Top" Height="410" Width="800" VerticalAlignment="Bottom" Margin="0,0,0,0">
-            <TabItem>
-                <TabItem.Header>
+        <TabControl Name="SettingTabs" SelectionChanged="SettingTabChanged" TabStripPlacement="Top" Height="410" Width="800" VerticalAlignment="Bottom" Margin="0,0,0,0">
+            <TabItem Header="Categories">
+                <!--<TabItem.Header>
                     <StackPanel Orientation="Horizontal">
                         <TextBlock>Categories</TextBlock>
                         
                     </StackPanel>
-                </TabItem.Header>
+                </TabItem.Header>-->
                 <StackPanel>
                     <Button Content="Add New Category" Name="AddCategory" Click="AddCategory_Click" Margin="0,10,0,0"/>
-                    <ListView Height="200" Margin="0,1,0,0" d:ItemsSource="{d:SampleData ItemCount=5}">
+                    <DataGrid Name="categoryDataGrid"  Height="200" Margin="0,1,0,0">
+                        <DataGrid.Resources>
+                            <Style TargetType="{x:Type DataGridColumnHeader}">
+                                <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                                <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                            </Style>
+                        </DataGrid.Resources>
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Category" Binding="{Binding category}"></DataGridTextColumn>
+                            <DataGridTextColumn Header="File Path" Binding="{Binding filePath}"></DataGridTextColumn>
+                            <DataGridTextColumn Header="Patterns" Binding="{Binding patternsToText}"></DataGridTextColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <!--<ListView Height="200" Margin="0,1,0,0" d:ItemsSource="{d:SampleData ItemCount=5}">
                         <ListView.View>
                             <GridView>
                                 <GridViewColumn/>
                             </GridView>
                         </ListView.View>
-                    </ListView>
+                    </ListView>-->
                 </StackPanel>
             </TabItem>
-            <TabItem>
-                <TabItem.Header>
+            <TabItem Header="Deduplication">
+                <!--<TabItem.Header>
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock>Dedupliation</TextBlock>
+                        <TextBlock>Deduplication</TextBlock>
                     </StackPanel>
-                </TabItem.Header>
+                </TabItem.Header>-->
                 <StackPanel>
                     <Frame></Frame>
                 </StackPanel>
             </TabItem>
-            <TabItem>
-                <TabItem.Header>
+            <TabItem Header="Security">
+                <!--<TabItem.Header>
                     <StackPanel Orientation="Horizontal">
                         <TextBlock>Security</TextBlock>
                     </StackPanel>
-                </TabItem.Header>
+                </TabItem.Header>-->
                 <StackPanel>
                     <Frame></Frame>
                 </StackPanel>
