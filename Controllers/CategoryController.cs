@@ -27,5 +27,10 @@ namespace File_Processor.Controllers
         {
             return _service.addCategoryToDb(new CategoryModel(path, cat));
         }
+
+        public bool RemoveCategory(string path, string cat)
+        {
+            return _service.DeleteCategoryFromDb(new CategoryModel(path, cat));
+        }
     }
 }

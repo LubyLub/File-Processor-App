@@ -29,5 +29,41 @@ namespace File_Processor.Services
 
             return result;
         }
+
+        public bool DeleteCategoryClassificationFromDb(string category, string pattern) 
+        { 
+            bool result = false;
+            using (var db = new DbDefinition())
+            {
+                var entityToDelete = db.CategoriesClassification.Find(category);
+                if (entityToDelete != null)
+                {
+                    db.Remove(new CategoryClassificationModel(category, pattern));
+                    result = true;
+                }
+
+                try { db.SaveChanges(); } catch { result = false; }
+            }
+
+            return result;
+        }
+
+        public bool DeleteAllCategoryClassificationsFromDb(string categoryName)
+        {
+            bool result = false;
+            using (var db = new DbDefinition())
+            {
+                var entitiesToDelete = db.CategoriesClassification.Where(e => e.category.Equals(categoryName)).ToList();
+                if (entitiesToDelete != null && entitiesToDelete.Count != 0) 
+                {
+                    db.CategoriesClassification.RemoveRange(entitiesToDelete);
+                    result = true;
+                }
+
+                try { db.SaveChanges(); } catch { result = false; }
+            }
+
+            return result;
+        }
     }
 }

@@ -9,7 +9,11 @@ namespace File_Processor.Services
 {
     class CategoryService
     {
-        public CategoryService() { }
+        private CategoryClassificationService _classificationService;
+        public CategoryService() 
+        { 
+            _classificationService = new CategoryClassificationService();
+        }
 
         public int addCategoryToDb(CategoryModel cat)
         {
@@ -35,5 +39,28 @@ namespace File_Processor.Services
             }
             return result;
         }
+
+        public bool DeleteCategoryFromDb(CategoryModel cat) 
+        {
+            bool result = false;
+            using (var db = new DbDefinition()) 
+            {
+                var entityToDelete = db.Categories.FirstOrDefault(e => e.category.Equals(cat.category));
+
+                if (entityToDelete != null)
+                {
+                    db.Remove(entityToDelete);
+                    result = true;
+
+                    //Try to Delete all associated CategoryClassifications
+                    result = result && _classificationService.DeleteAllCategoryClassificationsFromDb(cat.category);
+                }
+
+                try { db.SaveChanges(); } catch { result = false; }
+            }
+
+            return result;
+        }
+
     }
 }

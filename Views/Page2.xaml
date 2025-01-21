@@ -19,7 +19,7 @@
                 </TabItem.Header>-->
                 <StackPanel>
                     <Button Content="Add New Category" Name="AddCategory" Click="AddCategory_Click" Margin="0,10,0,0"/>
-                    <DataGrid Name="categoryDataGrid"  Height="200" Margin="0,1,0,0">
+                    <DataGrid Name="categoryDataGrid" Height="200" Margin="0,1,0,0">
                         <DataGrid.Resources>
                             <Style TargetType="{x:Type DataGridColumnHeader}">
                                 <Setter Property="HorizontalAlignment" Value="Stretch"/>
@@ -30,6 +30,20 @@
                             <DataGridTextColumn Header="Category" Binding="{Binding category}"></DataGridTextColumn>
                             <DataGridTextColumn Header="File Path" Binding="{Binding filePath}"></DataGridTextColumn>
                             <DataGridTextColumn Header="Patterns" Binding="{Binding patternsToText}"></DataGridTextColumn>
+                            <DataGridTemplateColumn Header="Edit">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Button Content="Edit" Name="EditCategory" Click="AddCategory_Click"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="Delete">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Button Content="Delete"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
                         </DataGrid.Columns>
                     </DataGrid>
                     <!--<ListView Height="200" Margin="0,1,0,0" d:ItemsSource="{d:SampleData ItemCount=5}">

@@ -22,5 +22,10 @@ namespace File_Processor.Controllers
         {
             return _service.AddCategoryClassificationToDb(category, pattern);
         }
+
+        public bool RemoveCategoryClassification(string category, string pattern) 
+        {
+            return _service.DeleteCategoryClassificationFromDb(category, pattern);
+        }
     }
 }
