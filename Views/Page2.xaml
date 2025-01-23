@@ -33,14 +33,14 @@
                             <DataGridTemplateColumn Header="Edit">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
-                                        <Button Content="Edit" Name="EditCategory" Click="AddCategory_Click"/>
+                                        <Button Content="Edit" Name="EditCategory" PreviewMouseLeftButtonUp="EditCategory_PreviewMouseLeftButtonUp"/>
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>
                             <DataGridTemplateColumn Header="Delete">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
-                                        <Button Content="Delete"/>
+                                        <Button Content="Delete" Name="DeleteCategoryButton" PreviewMouseLeftButtonUp="DeleteCategoryButton_PreviewMouseLeftButtonUp"/>
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>

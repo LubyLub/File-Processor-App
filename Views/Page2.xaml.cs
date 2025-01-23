@@ -24,6 +24,7 @@ namespace File_Processor.Views
     {
         //private CategoryController categoryController;
         private CategoryMergedController _mergedController;
+        private CategoryController _categoryController;
         private DbDefinition _context;
         public Page2()
         {
@@ -82,6 +83,31 @@ namespace File_Processor.Views
                 }
 
             }
+        }
+        private void EditCategory_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            
+        }
+
+        private void DeleteCategoryButton_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            Button button = (Button) sender;
+            if (button != null)
+            {
+                DataGridRow row = GetParent<DataGridRow>(button);
+
+                var item = row.Item;
+                
+                
+
+            }
+        }
+
+        private TargetType GetParent<TargetType>(DependencyObject o)
+            where TargetType : DependencyObject
+        {
+            if (o == null || o is TargetType) return (TargetType)o;
+            return GetParent<TargetType>(VisualTreeHelper.GetParent(o));
         }
     }
 }
