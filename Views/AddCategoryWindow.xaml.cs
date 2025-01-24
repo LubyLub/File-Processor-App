@@ -31,6 +31,19 @@ namespace File_Processor.Views
             _page = page2;
         }
 
+        public AddCategoryWindow(Page2 page2, String category, String filePath)
+        {
+            InitializeComponent();
+            categoryController = new CategoryController();
+            categoryClassificationController = new CategoryClassificationController();
+            _page = page2;
+
+            this.Title = "Edit Category";
+            this.process.Content = "Edit";
+            this.categoryName.Text = category;
+            this.categoryFilePath.Text = filePath;
+        }
+
         private void Add_Category(object sender, RoutedEventArgs e)
         {
             MessageBoxResult msgResult = 0;
@@ -50,7 +63,6 @@ namespace File_Processor.Views
             {
                 Close();
             }
-            _page.LoadCategories();
         }
 
         private String[] parseClassificationText(String str)
@@ -70,6 +82,13 @@ namespace File_Processor.Views
                 if (result == false) { break; }
             }
             return result;
+        }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            MainWindow mainWindow = (MainWindow)this.Owner;
+            mainWindow.UnlockWindow();
+            _page.LoadCategories();
         }
     }
 }

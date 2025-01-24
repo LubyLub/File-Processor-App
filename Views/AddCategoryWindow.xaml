@@ -5,11 +5,11 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:File_Processor.Views"
         mc:Ignorable="d"
-        Title="Add Category" Height="220" Width="600">
+        Title="Add Category" Height="220" Width="600" Closing="Window_Closing" >
     <Grid>
         <TextBox Name="categoryFilePath" HorizontalAlignment="Left" Height="38" Padding="0,0,0,0" Margin="259,39,0,0" TextWrapping="Wrap" Text="Input a File Path" VerticalAlignment="Top" Width="236"/>
         <TextBox Name="categoryName" HorizontalAlignment="Left" Height="38" Padding="0,0,0,0" Margin="90,39,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="134"/>
-        <Button Content="Add" Click="Add_Category" HorizontalAlignment="Center" VerticalAlignment="Top" Width="366" Margin="0,149,0,0"/>
+        <Button Name="process" Content="Add" Click="Add_Category" HorizontalAlignment="Center" VerticalAlignment="Top" Width="366" Margin="0,149,0,0"/>
         <TextBox x:Name="inputClassification" HorizontalAlignment="Center" Height="38" Margin="0,92,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="405"/>
 
     </Grid>

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,7 +23,6 @@ namespace File_Processor.Views
     /// </summary>
     public partial class Page2 : Page
     {
-        //private CategoryController categoryController;
         private CategoryMergedController _mergedController;
         private CategoryController _categoryController;
         private DbDefinition _context;
@@ -31,7 +31,7 @@ namespace File_Processor.Views
             InitializeComponent();
             _context = new DbDefinition();
             _mergedController = new CategoryMergedController();
-            //categoryController = new CategoryController(this);
+            _categoryController = new CategoryController();
 
             categoryDataGrid.AutoGenerateColumns = false;
             LoadCategories();
@@ -46,6 +46,9 @@ namespace File_Processor.Views
         private void AddCategory_Click(object sender, RoutedEventArgs e)
         {
             AddCategoryWindow win = new AddCategoryWindow(this);
+            MainWindow mainWindow = (MainWindow)Window.GetWindow(this);
+            win.Owner = mainWindow;
+            mainWindow.LockWindow();
             win.Show();
         }
 
@@ -84,22 +87,46 @@ namespace File_Processor.Views
 
             }
         }
-        private void EditCategory_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-        {
-            
-        }
+        
 
-        private void DeleteCategoryButton_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        private void DeleteCategoryButton_Click(object sender, RoutedEventArgs e)
         {
-            Button button = (Button) sender;
+            Button button = (Button)e.Source;
             if (button != null)
             {
                 DataGridRow row = GetParent<DataGridRow>(button);
+                CategoryMergedViewModel rowData = (CategoryMergedViewModel)row.DataContext;
+                if (rowData != null)
+                {
+                    String path = rowData.filePath;
+                    String cat = rowData.category;
+                    bool result = _categoryController.RemoveCategory(path, cat);
+                    if (result)
+                    {
+                        LoadCategories();
+                    }
+                }
+            }
+        }
 
-                var item = row.Item;
-                
-                
-
+        private void EditCategory_Click(object sender, RoutedEventArgs e)
+        {
+            Button button = (Button)e.Source;
+            if (button != null)
+            {
+                DataGridRow row = GetParent<DataGridRow>(button);
+                CategoryMergedViewModel rowData = (CategoryMergedViewModel)row.DataContext;
+                if (rowData != null)
+                {
+                    String path = rowData.filePath;
+                    String cat = rowData.category;
+                    // Open Add Category Window but change titles
+                    AddCategoryWindow win = new AddCategoryWindow(this, cat, path);
+                    MainWindow mainWindow = (MainWindow)Window.GetWindow(this);
+                    win.Owner = mainWindow;
+                    mainWindow.LockWindow();
+                    win.Show();
+                }
             }
         }
 

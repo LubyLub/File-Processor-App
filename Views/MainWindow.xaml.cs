@@ -28,7 +28,20 @@ namespace File_Processor
             //categoryController = new CategoryController(this);
         }
 
+        internal void LockWindow()
+        {
+            this.IsEnabled = false;
+            this.ResizeMode = ResizeMode.NoResize;
+            //this.WindowStyle = WindowStyle.None;
+        }
 
+        internal void UnlockWindow()
+        {
+            this.IsEnabled = true;
+            this.ResizeMode = ResizeMode.CanResize;
+            this.WindowStyle = WindowStyle.SingleBorderWindow;
+            this.Activate();
+        }
 
 
         //private void Add_Category(object sender, RoutedEventArgs e)
