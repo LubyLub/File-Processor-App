@@ -28,5 +28,22 @@ namespace File_Processor.Models
             this.pattern = pattern;
             this.categoryModel = categoryModel;
         }
+
+        // override object.Equals
+        public override bool Equals(object obj)
+        {
+            if (obj == null || GetType() != obj.GetType())
+            {
+                return false;
+            }
+            CategoryClassificationModel other = (CategoryClassificationModel)obj;
+            return this.category.Equals(other.category) && this.pattern.Equals(other.pattern);
+        }
+
+        // override object.GetHashCode
+        public override int GetHashCode()
+        {
+            return (this.category + "|" + this.pattern).GetHashCode();
+        }
     }
 }

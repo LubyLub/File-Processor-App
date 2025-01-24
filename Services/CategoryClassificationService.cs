@@ -32,14 +32,13 @@ namespace File_Processor.Services
 
         public bool DeleteCategoryClassificationFromDb(string category, string pattern) 
         { 
-            bool result = false;
+            bool result = true;
             using (var db = new DbDefinition())
             {
-                var entityToDelete = db.CategoriesClassification.Find(category);
+                var entityToDelete = db.CategoriesClassification.Find(category, pattern);
                 if (entityToDelete != null)
                 {
-                    db.Remove(new CategoryClassificationModel(category, pattern));
-                    result = true;
+                    db.Remove(entityToDelete);
                 }
 
                 try { db.SaveChanges(); } catch { result = false; }
@@ -64,6 +63,17 @@ namespace File_Processor.Services
             }
 
             return result;
+        }
+
+        public List<CategoryClassificationModel> getClassficationsFromDb(string categoryName)
+        {
+            List<CategoryClassificationModel> classificationData = null;
+            using (var context = new DbDefinition())
+            {
+                classificationData = context.CategoriesClassification.Where(c => c.category.Equals(categoryName)).ToList();
+                 
+            }
+            return classificationData;
         }
     }
 }
