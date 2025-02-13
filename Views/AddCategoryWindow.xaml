@@ -5,13 +5,14 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:File_Processor.Views"
         mc:Ignorable="d"
-        Title="Add Category" Height="300" Width="600" Closing="Window_Closing" >
+        Title="Add Category" Height="320" Width="600" Closing="Window_Closing" ResizeMode="NoResize" >
     <Grid>
-        <TextBox Name="categoryName" HorizontalAlignment="Left" Height="30" Padding="0,0,0,0" Margin="90,25,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="134"/>
-        <TextBox Name="categoryFilePath" HorizontalAlignment="Left" Height="30" Padding="0,0,0,0" Margin="259,25,0,0" TextWrapping="Wrap" Text="Input a File Path" VerticalAlignment="Top" Width="236"/>
-        <TextBox Name="patternText" Height="25" Margin="-140,75,0,0" TextWrapping="Wrap" Text="Input a Pattern" VerticalAlignment="Top" Width="150"/>
-        <Button Name="addPattern" Content="Add Pattern" Click="addPattern_Click" Height="20" Margin="150,78,0,0" VerticalAlignment="Top" Width="100"/>
-        <DataGrid Name="classificationDataGrid" AutoGenerateColumns="False" CanUserDeleteRows="True" Height="100" Margin="55,100,55,67">
+        <TextBox Name="categoryName" HorizontalAlignment="Left" Height="30" Padding="0,0,0,0" Margin="84,25,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="134"/>
+        <TextBox Name="categoryFilePath" HorizontalAlignment="Left" Height="30" Padding="0,0,0,0" Margin="265,25,0,0" TextWrapping="Wrap" Text="Input a File Path" VerticalAlignment="Top" Width="236"/>
+        <TextBox Name="patternText" Height="25" Margin="84,77,364,0" TextWrapping="Wrap" Text="Input a Pattern" VerticalAlignment="Top"/>
+        <ComboBox Name="patternType" SelectedIndex="0" IsReadOnly="True" IsEditable="False" HorizontalAlignment="Left" Margin="265,80,0,0" VerticalAlignment="Top" Width="100" Height="22"/>
+        <Button Name="addPattern" Content="Add Pattern" Click="addPattern_Click" Height="20" Margin="406,81,99,0" VerticalAlignment="Top"/>
+        <DataGrid Name="classificationDataGrid" AutoGenerateColumns="False" CanUserDeleteRows="True" Margin="55,120,55,64">
             <DataGrid.Resources>
                 <Style TargetType="{x:Type DataGridColumnHeader}">
                     <Setter Property="HorizontalAlignment" Value="Stretch"/>
@@ -30,7 +31,7 @@
                 </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
-        <Button Name="process" Content="Add" Click="Add_Category" HorizontalAlignment="Center" VerticalAlignment="Top" Width="366" Margin="55,222,55,0"/>
+        <Button Name="process" Content="Add" Click="Add_Category" HorizontalAlignment="Center" VerticalAlignment="Top" Width="366" Margin="0,242,0,0"/>
         <!--<TextBox x:Name="inputClassification" HorizontalAlignment="Center" Height="38" Margin="0,92,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="405"/>-->
 
     </Grid>

@@ -27,6 +27,7 @@ namespace File_Processor.Views
         private List<CategoryClassificationModel> dataList;
         private List<CategoryClassificationModel> addList;
         private List<CategoryClassificationModel> removeList;
+        private readonly List<String> patternTypes = new List<string> { "Regex", "Keyword" };
         public AddCategoryWindow(Page2 page2)
         {
             InitializeComponent();
@@ -34,6 +35,7 @@ namespace File_Processor.Views
             categoryClassificationController = new CategoryClassificationController();
             addList = new List<CategoryClassificationModel>();
             removeList = new List<CategoryClassificationModel>();
+            patternType.ItemsSource = patternTypes;
             _page = page2;
 
             GetClassifications();
@@ -46,6 +48,7 @@ namespace File_Processor.Views
             categoryClassificationController = new CategoryClassificationController();
             addList = new List<CategoryClassificationModel>();
             removeList = new List<CategoryClassificationModel>();
+            patternType.ItemsSource = patternTypes;
             _page = page2;
 
             this.Title = "Edit Category";
@@ -67,13 +70,14 @@ namespace File_Processor.Views
             // Adding Category Classificagtion
             classificationResult = AddCategoryClassifications() && classificationResult;
             // Closing Act
-            if (result == 1) { msgResult = MessageBox.Show("Category \'" + category + ":" + givenPath + "\' Successfuly Added"); }
-            else if (result == 2) { msgResult = MessageBox.Show("Category \'" + category + ":" + givenPath + "\' Updated"); }
-            else if (result == 0 || !classificationResult) { msgResult = MessageBox.Show("Error incured"); }
-            if (msgResult != MessageBoxResult.None)
-            {
-                Close();
-            }
+            //if (result == 1) { msgResult = MessageBox.Show("Category \'" + category + ":" + givenPath + "\' Successfuly Added"); }
+            //else if (result == 2) { msgResult = MessageBox.Show("Category \'" + category + ":" + givenPath + "\' Updated"); }
+            //else if (result == 0 || !classificationResult) { msgResult = MessageBox.Show("Error incured"); }
+            //if (msgResult != MessageBoxResult.None)
+            //{
+            //    Close();
+            //}
+            Close();
             _page.LoadCategories();
         }
         private bool AddCategoryClassifications()
@@ -106,17 +110,17 @@ namespace File_Processor.Views
             return output;
         }
 
-        private bool Add_CategoryClassification(string cat, String[] patternList)
-        {
-            // Implement the addition of categories 
-            bool result = true;
-            foreach (String pattern in patternList)
-            {
-                result = result && categoryClassificationController.AddCategoryClassification(cat, pattern);
-                if (result == false) { break; }
-            }
-            return result;
-        }
+        //private bool Add_CategoryClassification(string cat, String[] patternList)
+        //{
+        //    // Implement the addition of categories 
+        //    bool result = true;
+        //    foreach (String pattern in patternList)
+        //    {
+        //        result = result && categoryClassificationController.AddCategoryClassification(cat, pattern);
+        //        if (result == false) { break; }
+        //    }
+        //    return result;
+        //}
 
         private void GetClassifications()
         {
@@ -174,8 +178,12 @@ namespace File_Processor.Views
         private void addPattern_Click(object sender, RoutedEventArgs e)
         {
             String category = categoryName.Text;
+            String typeText = patternType.Text;
             String pattern = patternText.Text;
-            CategoryClassificationModel itemToAdd = new CategoryClassificationModel(category, pattern);
+            int type = 0; //Regex
+            if (pattern.Equals("") || typeText.Equals("")) { return; }
+            else if (typeText.Equals(patternTypes[1])) { type = 1; } //Set type to Keyword
+            CategoryClassificationModel itemToAdd = new CategoryClassificationModel(category, pattern, type);
             if (!dataList.Contains(itemToAdd))
             {
                 dataList.Add(itemToAdd);

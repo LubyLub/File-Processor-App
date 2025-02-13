@@ -19,9 +19,9 @@ namespace File_Processor.Controllers
             _service = new CategoryClassificationService();
         }
 
-        public bool AddCategoryClassification(string category, string pattern)
+        public bool AddCategoryClassification(string category, string pattern, int type)
         {
-            return _service.AddCategoryClassificationToDb(category, pattern);
+            return _service.AddCategoryClassificationToDb(category, pattern, type);
         }
 
         public bool RemoveCategoryClassification(string category, string pattern) 
@@ -41,7 +41,7 @@ namespace File_Processor.Controllers
 
         public bool AddCategoryClassification(CategoryClassificationModel categoryClassification)
         {
-            return _service.AddCategoryClassificationToDb(categoryClassification.category, categoryClassification.pattern);
+            return _service.AddCategoryClassificationToDb(categoryClassification.category, categoryClassification.pattern, categoryClassification.type);
         }
     }
 }

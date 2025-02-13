@@ -11,7 +11,7 @@ namespace File_Processor.Services
     {
         public CategoryClassificationService() { }
 
-        public bool AddCategoryClassificationToDb(string category, string pattern) 
+        public bool AddCategoryClassificationToDb(string category, string pattern, int type) 
         {
             // Implement adding of category classification
             // Make sure to restrict foreign key policy and add 1 always for key and 2 for regex
@@ -21,7 +21,7 @@ namespace File_Processor.Services
                 var categoryExists = db.Categories.Find(category);
                 if (categoryExists == null) { return false; }
 
-                db.Add(new CategoryClassificationModel(category, pattern));
+                db.Add(new CategoryClassificationModel(category, pattern, type));
                 result = true;
 
                 try { db.SaveChanges(); } catch { result = false; }
