@@ -23,7 +23,7 @@ namespace File_Processor.Controllers
             List<CategoryMergedModel> combinedData = _service.getCategoryAndClassifications();
             foreach (CategoryMergedModel item in combinedData) 
             {
-                output.Add(new CategoryMergedViewModel(item.category, item.filePath, item.patterns));
+                output.Add(new CategoryMergedViewModel(item.category, item.filePath, item.patterns, item.priority));
             }
             return output;
         }

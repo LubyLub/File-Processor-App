@@ -23,14 +23,14 @@ namespace File_Processor.Controllers
             _service = new CategoryService();
         }
 
-        public int addCategory(string path, string cat)
+        public int addCategory(string path, string cat, int priority)
         {
-            return _service.addCategoryToDb(new CategoryModel(path, cat));
+            return _service.addCategoryToDb(new CategoryModel(path, cat, priority));
         }
 
         public bool RemoveCategory(string path, string cat)
         {
-            return _service.DeleteCategoryFromDb(new CategoryModel(path, cat));
+            return _service.DeleteCategoryFromDb(new CategoryModel(path, cat, 0));
         }
     }
 }

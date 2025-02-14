@@ -21,17 +21,20 @@ namespace File_Processor.Controllers
 
         public bool AddCategoryClassification(string category, string pattern, int type)
         {
-            return _service.AddCategoryClassificationToDb(category, pattern, type);
+            return _service.AddCategoryClassificationToDb(new CategoryClassificationModel(category, pattern, type));
+            //return _service.AddCategoryClassificationToDb(category, pattern, type);
         }
 
         public bool RemoveCategoryClassification(string category, string pattern) 
         {
-            return _service.DeleteCategoryClassificationFromDb(category, pattern);
+            return _service.DeleteCategoryClassificationFromDb(new CategoryClassificationModel(category, pattern));
+            //return _service.DeleteCategoryClassificationFromDb(category, pattern);
         }
 
         public bool RemoveCategoryClassification(CategoryClassificationModel categoryClassification)
         {
-            return _service.DeleteCategoryClassificationFromDb(categoryClassification.category, categoryClassification.pattern);
+            return _service.DeleteCategoryClassificationFromDb(categoryClassification);
+            //return _service.DeleteCategoryClassificationFromDb(categoryClassification.category, categoryClassification.pattern);
         }
 
         public List<CategoryClassificationModel> getClassifications(string category)
@@ -41,7 +44,8 @@ namespace File_Processor.Controllers
 
         public bool AddCategoryClassification(CategoryClassificationModel categoryClassification)
         {
-            return _service.AddCategoryClassificationToDb(categoryClassification.category, categoryClassification.pattern, categoryClassification.type);
+            return _service.AddCategoryClassificationToDb(categoryClassification);
+            //return _service.AddCategoryClassificationToDb(categoryClassification.category, categoryClassification.pattern, categoryClassification.type);
         }
     }
 }

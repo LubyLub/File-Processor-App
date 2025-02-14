@@ -120,8 +120,9 @@ namespace File_Processor.Views
                 {
                     String path = rowData.filePath;
                     String cat = rowData.category;
+                    Priority priority = (Priority) rowData.priority;
                     // Open Add Category Window but change titles
-                    AddCategoryWindow win = new AddCategoryWindow(this, cat, path);
+                    AddCategoryWindow win = new AddCategoryWindow(this, cat, path, priority);
                     MainWindow mainWindow = (MainWindow)Window.GetWindow(this);
                     win.Owner = mainWindow;
                     mainWindow.LockWindow();

@@ -10,18 +10,20 @@ namespace File_Processor.Models
     {
         public String category { get; set; }
         public String filePath { get; set; }
+        public int priority { get; set; }
         public List<String> patterns { get; set; }
 
-        public CategoryMergedModel(String name, String path, List<String> patternList) 
+        public CategoryMergedModel(String name, String path, List<String> patternList, int priority) 
         { 
             this.category = name;
             this.filePath = path;
+            this.priority = priority;
             this.patterns = patternList;
         }
 
         public override String ToString() 
         {
-            String output = "Name:" + category + "\nPath: " + filePath + "\nPatterns: ";
+            String output = "Name:" + category + "\nPath: " + filePath + "\nPriority: " + priority + "\nPatterns: ";
             foreach (String pattern in patterns)
             {
                 output += pattern + " ";

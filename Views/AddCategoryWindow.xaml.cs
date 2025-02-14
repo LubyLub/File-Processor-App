@@ -27,7 +27,8 @@ namespace File_Processor.Views
         private List<CategoryClassificationModel> dataList;
         private List<CategoryClassificationModel> addList;
         private List<CategoryClassificationModel> removeList;
-        private readonly List<String> patternTypes = new List<string> { "Regex", "Keyword" };
+        private readonly List<String> patternTypes = new List<string> { PatternType.Regex.ToString(), PatternType.Keyword.ToString() };
+        private readonly List<String> priorityChoices = new List<string> { 0 + " - " + Priority.lowest, 1 + " - " + Priority.low, 2 + " - " + Priority.mid, 3 + " - " + Priority.high, 4 + " - " + Priority.highest, 5 + " - " + Priority.sensitive };
         public AddCategoryWindow(Page2 page2)
         {
             InitializeComponent();
@@ -36,12 +37,14 @@ namespace File_Processor.Views
             addList = new List<CategoryClassificationModel>();
             removeList = new List<CategoryClassificationModel>();
             patternType.ItemsSource = patternTypes;
+            selectedPriority.ItemsSource = priorityChoices;
+            selectedPriority.SelectedIndex = 0;
             _page = page2;
 
             GetClassifications();
         }
 
-        public AddCategoryWindow(Page2 page2, String category, String filePath)
+        public AddCategoryWindow(Page2 page2, String category, String filePath, Priority priority)
         {
             InitializeComponent();
             categoryController = new CategoryController();
@@ -49,12 +52,15 @@ namespace File_Processor.Views
             addList = new List<CategoryClassificationModel>();
             removeList = new List<CategoryClassificationModel>();
             patternType.ItemsSource = patternTypes;
+            selectedPriority.ItemsSource = priorityChoices;
             _page = page2;
 
             this.Title = "Edit Category";
             this.process.Content = "Edit";
             this.categoryName.Text = category;
+            this.categoryName.IsEnabled = false;
             this.categoryFilePath.Text = filePath;
+            this.selectedPriority.SelectedIndex = (int) priority;
             GetClassifications();
         }
 
@@ -63,8 +69,9 @@ namespace File_Processor.Views
             MessageBoxResult msgResult = 0;
             string givenPath = categoryFilePath.Text; // Grabs Text in a TextBox named categoryFilePath
             string category = categoryName.Text;
+            int priority = selectedPriority.SelectedIndex;
             // Adding Category
-            int result = categoryController.addCategory(givenPath, category);
+            int result = categoryController.addCategory(givenPath, category, priority);
             //Removing categories deleted
             bool classificationResult = RemoveCategoryClassifications();
             // Adding Category Classificagtion
@@ -178,12 +185,9 @@ namespace File_Processor.Views
         private void addPattern_Click(object sender, RoutedEventArgs e)
         {
             String category = categoryName.Text;
-            String typeText = patternType.Text;
+            PatternType type = (PatternType) this.patternType.SelectedIndex;
             String pattern = patternText.Text;
-            int type = 0; //Regex
-            if (pattern.Equals("") || typeText.Equals("")) { return; }
-            else if (typeText.Equals(patternTypes[1])) { type = 1; } //Set type to Keyword
-            CategoryClassificationModel itemToAdd = new CategoryClassificationModel(category, pattern, type);
+            CategoryClassificationModel itemToAdd = new CategoryClassificationModel(category, pattern, (int) type);
             if (!dataList.Contains(itemToAdd))
             {
                 dataList.Add(itemToAdd);

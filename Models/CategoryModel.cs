@@ -13,23 +13,26 @@ namespace File_Processor.Models
         [Key] public String category { get; set; }
         public String? parentCategory { get; set; }
         public String? subCategory { get; set; }
+        public int priority { get; set; }
         public virtual ICollection<CategoryClassificationModel> classifications { get; set; }
 
         //public CategoryModel() { }
-        public CategoryModel(String filePath, String category, String parentCategory, String subCategory)
+        public CategoryModel(String filePath, String category, String parentCategory, String subCategory, int priority)
         {
             this.filePath = filePath;
             this.category = category;
             this.parentCategory = parentCategory;
             this.subCategory = subCategory;
+            this.priority = priority;
             this.classifications = new List<CategoryClassificationModel>();
         }
-        public CategoryModel(String filePath, String category)
+        public CategoryModel(String filePath, String category, int priority)
         {
             this.filePath = filePath;
             this.category = category;
             this.parentCategory = null;
             this.subCategory = null;
+            this.priority = priority;
             this.classifications = new List<CategoryClassificationModel>();
         }
 

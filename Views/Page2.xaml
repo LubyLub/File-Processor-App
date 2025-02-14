@@ -30,6 +30,7 @@
                             <DataGridTextColumn Header="Category" Binding="{Binding category}"></DataGridTextColumn>
                             <DataGridTextColumn Header="File Path" Binding="{Binding filePath}"></DataGridTextColumn>
                             <DataGridTextColumn Header="Patterns" Binding="{Binding patternsToText}"></DataGridTextColumn>
+                            <DataGridTextColumn Header="Priority" Binding="{Binding priority}"></DataGridTextColumn>
                             <DataGridTemplateColumn Header="Edit">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>

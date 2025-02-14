@@ -24,7 +24,8 @@ namespace File_Processor.Services
                         (c1, c2) => new CategoryMergedModel(
                             c1.category, 
                             c1.filePath, 
-                            c2.Select( c => c.pattern ).ToList()
+                            c2.Select( c => c.pattern ).ToList(),
+                            c1.priority
                         )
                     ).ToList();
 

@@ -29,6 +29,7 @@ namespace File_Processor.Services
                 if (entityToUpdate != null)
                 {
                     entityToUpdate.filePath = cat.filePath;
+                    entityToUpdate.priority = cat.priority;
                     result = 2;
                 }
                 else 

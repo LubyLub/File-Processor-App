@@ -17,6 +17,13 @@ namespace File_Processor.Models
         public String pattern { get; set; }
         public int type { get; set; } // Type == 0 is Regex, Type == 1 is Keyword
 
+        public CategoryClassificationModel(string category, string pattern)
+        {
+            this.category = category;
+            this.pattern = pattern;
+            this.type = 0;
+        }
+
         public CategoryClassificationModel(string category, string pattern, int type) 
         { 
             this.category = category;

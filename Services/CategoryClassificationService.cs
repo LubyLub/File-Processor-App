@@ -11,6 +11,25 @@ namespace File_Processor.Services
     {
         public CategoryClassificationService() { }
 
+        public bool AddCategoryClassificationToDb(CategoryClassificationModel categoryClassification)
+        {
+            // Implement adding of category classification
+            // Make sure to restrict foreign key policy and add 1 always for key and 2 for regex
+            bool result = false;
+            using (var db = new DbDefinition())
+            {
+                var categoryExists = db.Categories.Find(categoryClassification.category);
+                if (categoryExists == null) { return false; }
+
+                db.Add(categoryClassification);
+                result = true;
+
+                try { db.SaveChanges(); } catch { result = false; }
+            }
+
+            return result;
+        }
+
         public bool AddCategoryClassificationToDb(string category, string pattern, int type) 
         {
             // Implement adding of category classification
@@ -23,6 +42,23 @@ namespace File_Processor.Services
 
                 db.Add(new CategoryClassificationModel(category, pattern, type));
                 result = true;
+
+                try { db.SaveChanges(); } catch { result = false; }
+            }
+
+            return result;
+        }
+
+        public bool DeleteCategoryClassificationFromDb(CategoryClassificationModel categoryClassification)
+        {
+            bool result = true;
+            using (var db = new DbDefinition())
+            {
+                var entityToDelete = db.CategoriesClassification.Find(categoryClassification.category, categoryClassification.pattern);
+                if (entityToDelete != null)
+                {
+                    db.Remove(entityToDelete);
+                }
 
                 try { db.SaveChanges(); } catch { result = false; }
             }

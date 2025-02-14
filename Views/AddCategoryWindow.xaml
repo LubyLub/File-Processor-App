@@ -7,8 +7,9 @@
         mc:Ignorable="d"
         Title="Add Category" Height="320" Width="600" Closing="Window_Closing" ResizeMode="NoResize" >
     <Grid>
-        <TextBox Name="categoryName" HorizontalAlignment="Left" Height="30" Padding="0,0,0,0" Margin="84,25,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="134"/>
-        <TextBox Name="categoryFilePath" HorizontalAlignment="Left" Height="30" Padding="0,0,0,0" Margin="265,25,0,0" TextWrapping="Wrap" Text="Input a File Path" VerticalAlignment="Top" Width="236"/>
+        <TextBox Name="categoryName" HorizontalAlignment="Left" Height="30" Padding="0,0,0,0" Margin="54,25,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="134"/>
+        <ComboBox Name="selectedPriority" IsReadOnly="True" IsEditable="False" HorizontalAlignment="Left" Margin="203,29,0,0" VerticalAlignment="Top" Width="97" Height="22"/>
+        <TextBox Name="categoryFilePath" HorizontalAlignment="Left" Height="30" Padding="0,0,0,0" Margin="329,25,0,0" TextWrapping="Wrap" Text="Input a File Path" VerticalAlignment="Top" Width="216"/>
         <TextBox Name="patternText" Height="25" Margin="84,77,364,0" TextWrapping="Wrap" Text="Input a Pattern" VerticalAlignment="Top"/>
         <ComboBox Name="patternType" SelectedIndex="0" IsReadOnly="True" IsEditable="False" HorizontalAlignment="Left" Margin="265,80,0,0" VerticalAlignment="Top" Width="100" Height="22"/>
         <Button Name="addPattern" Content="Add Pattern" Click="addPattern_Click" Height="20" Margin="406,81,99,0" VerticalAlignment="Top"/>

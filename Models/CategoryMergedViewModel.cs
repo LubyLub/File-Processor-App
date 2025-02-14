@@ -10,12 +10,14 @@ namespace File_Processor.Models
     {
         public String category { get; set; }
         public String filePath { get; set; }
+        public int priority { get; set; }
         public String patternsToText { get; set; }
         private const int maxLength = 30;
-        public CategoryMergedViewModel(String name, String path, List<String> patternList) 
+        public CategoryMergedViewModel(String name, String path, List<String> patternList, int priority) 
         { 
             this.category = name;
             this.filePath = path;
+            this.priority = priority;
             this.patternsToText = PatternsToText(patternList);
         }
 
