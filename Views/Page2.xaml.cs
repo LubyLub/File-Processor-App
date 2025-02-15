@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data;
 using System.Linq;
 using System.Text;
@@ -34,7 +35,19 @@ namespace File_Processor.Views
             _categoryController = new CategoryController();
 
             categoryDataGrid.AutoGenerateColumns = false;
+            SetCheckBoxValues();
             LoadCategories();
+        }
+
+        private void SetCheckBoxValues()
+        {
+            MultipleCategoryCheckBox.IsChecked = Properties.Settings.Default.MultipleCategories;
+            UseDeduplication.IsChecked = Properties.Settings.Default.Deduplication;
+            UseFileNamesForDeduplication.IsChecked = Properties.Settings.Default.UseFileNameDeduplication;
+            UseFileContentForDeduplication.IsChecked = Properties.Settings.Default.UseFileContentDeduplication;
+            UseSecurity.IsChecked = Properties.Settings.Default.Security;
+            MalewareAnalysisCheckBox.IsChecked = Properties.Settings.Default.MalwareAnalysis;
+            EncryptionCheckBox.IsChecked = Properties.Settings.Default.FileEncryption;
         }
 
         private void Change_To_Main_Page(object sender, RoutedEventArgs e)
@@ -136,6 +149,41 @@ namespace File_Processor.Views
         {
             if (o == null || o is TargetType) return (TargetType)o;
             return GetParent<TargetType>(VisualTreeHelper.GetParent(o));
+        }
+
+
+        private void UserSettingChange_Click(object sender, RoutedEventArgs e)
+        {
+            CheckBox setting = (CheckBox)sender;
+            if (setting.Equals(MultipleCategoryCheckBox))
+            {
+                Properties.Settings.Default.MultipleCategories = (bool)setting.IsChecked;
+            }
+            else if (setting.Equals(UseDeduplication))
+            {
+                Properties.Settings.Default.Deduplication = (bool)setting.IsChecked;
+            }
+            else if (setting.Equals(UseFileNamesForDeduplication))
+            {
+                Properties.Settings.Default.UseFileNameDeduplication = (bool)setting.IsChecked;
+            }
+            else if (setting.Equals(UseFileContentForDeduplication))
+            {
+                Properties.Settings.Default.UseFileContentDeduplication = (bool)setting.IsChecked;
+            }
+            else if (setting.Equals(UseSecurity))
+            {
+                Properties.Settings.Default.Security = (bool)setting.IsChecked;
+            }
+            else if (setting.Equals(MalewareAnalysisCheckBox))
+            {
+                Properties.Settings.Default.MalwareAnalysis = (bool)setting.IsChecked;
+            }
+            else if (setting.Equals(EncryptionCheckBox))
+            {
+                Properties.Settings.Default.FileEncryption = (bool)setting.IsChecked;
+            }
+            Properties.Settings.Default.Save();
         }
     }
 }

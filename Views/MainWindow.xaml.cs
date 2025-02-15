@@ -28,6 +28,12 @@ namespace File_Processor
             //categoryController = new CategoryController(this);
         }
 
+        private void MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            Console.WriteLine(Properties.Settings.Default.MultipleCategories);
+            //Properties.Settings.Default.Save();
+        }
+
         internal void LockWindow()
         {
             this.IsEnabled = false;

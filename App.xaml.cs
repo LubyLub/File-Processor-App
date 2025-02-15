@@ -17,6 +17,11 @@ namespace File_Processor
             InitializeDb();
         }
 
+        protected void OnExit(object sender, ExitEventArgs e)
+        {
+            
+        }
+
         private void InitializeDb()
         {
             using (var db = new DbDefinition())

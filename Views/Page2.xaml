@@ -47,7 +47,7 @@
                             </DataGridTemplateColumn>
                         </DataGrid.Columns>
                     </DataGrid>
-                    <CheckBox Content="Add Files To Multiple Categories" Margin="10,10,0,0"/>
+                    <CheckBox Name="MultipleCategoryCheckBox" Content="Add Files To Multiple Categories" Click="UserSettingChange_Click" Margin="10,10,0,0"/>
 
                 </StackPanel>
             </TabItem>
@@ -58,9 +58,10 @@
                     </StackPanel>
                 </TabItem.Header>-->
                 <StackPanel>
-                    <CheckBox Content="Enable Deduplication" Margin="10,10,0,0"/>
-                    <CheckBox Content="Use File Names for Deduplication" Margin="10,10,0,0"/>
-                    <CheckBox Content="Use File Content for Deduplication" Margin="10,10,0,0"/>
+                    <CheckBox Name="UseDeduplication" Content="Enable Deduplication" Click="UserSettingChange_Click" Margin="10,10,0,0"/>
+                    <!--<ComboBox Name="Deduplication Policy" IsReadOnly="True" IsEditable="False" HorizontalAlignment="Left" Margin="203,29,0,0" VerticalAlignment="Top" Width="97" Height="22"/>-->
+                    <CheckBox Name="UseFileNamesForDeduplication" Content="Use File Names for Deduplication" Click="UserSettingChange_Click" Margin="10,10,0,0"/>
+                    <CheckBox Name="UseFileContentForDeduplication" Content="Use File Content for Deduplication" Click="UserSettingChange_Click" Margin="10,10,0,0"/>
                 </StackPanel>
             </TabItem>
             <TabItem Header="Security">
@@ -70,9 +71,9 @@
                     </StackPanel>
                 </TabItem.Header>-->
                 <StackPanel>
-                    <CheckBox Content="Enable Security" Margin="10,10,0,0"/>
-                    <CheckBox Content="Enable Malware Analysis" Margin="10,10,0,0"/>
-                    <CheckBox Content="Enable Sensitive File Encryption" Margin="10,10,0,0"/>
+                    <CheckBox Name="UseSecurity" Content="Enable Security" Click="UserSettingChange_Click" Margin="10,10,0,0"/>
+                    <CheckBox Name="MalewareAnalysisCheckBox" Content="Enable Malware Analysis" Click="UserSettingChange_Click" Margin="10,10,0,0"/>
+                    <CheckBox Name="EncryptionCheckBox" Content="Enable Sensitive File Encryption" Click="UserSettingChange_Click" Margin="10,10,0,0"/>
                 </StackPanel>
             </TabItem>
         </TabControl>
