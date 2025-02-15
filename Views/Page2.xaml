@@ -47,13 +47,8 @@
                             </DataGridTemplateColumn>
                         </DataGrid.Columns>
                     </DataGrid>
-                    <!--<ListView Height="200" Margin="0,1,0,0" d:ItemsSource="{d:SampleData ItemCount=5}">
-                        <ListView.View>
-                            <GridView>
-                                <GridViewColumn/>
-                            </GridView>
-                        </ListView.View>
-                    </ListView>-->
+                    <CheckBox Content="Add Files To Multiple Categories" Margin="10,10,0,0"/>
+
                 </StackPanel>
             </TabItem>
             <TabItem Header="Deduplication">
@@ -63,7 +58,9 @@
                     </StackPanel>
                 </TabItem.Header>-->
                 <StackPanel>
-                    <Frame></Frame>
+                    <CheckBox Content="Enable Deduplication" Margin="10,10,0,0"/>
+                    <CheckBox Content="Use File Names for Deduplication" Margin="10,10,0,0"/>
+                    <CheckBox Content="Use File Content for Deduplication" Margin="10,10,0,0"/>
                 </StackPanel>
             </TabItem>
             <TabItem Header="Security">
@@ -73,7 +70,9 @@
                     </StackPanel>
                 </TabItem.Header>-->
                 <StackPanel>
-                    <Frame></Frame>
+                    <CheckBox Content="Enable Security" Margin="10,10,0,0"/>
+                    <CheckBox Content="Enable Malware Analysis" Margin="10,10,0,0"/>
+                    <CheckBox Content="Enable Sensitive File Encryption" Margin="10,10,0,0"/>
                 </StackPanel>
             </TabItem>
         </TabControl>
