@@ -11,7 +11,8 @@
     <Grid Width="800">
         <Button Content="Setting" Click="Change_To_Setting_Page" HorizontalAlignment="Right" Padding="3,0,3,0" Margin="0,10,10,0" VerticalAlignment="Top"/>
         <Button Content="Refresh" Click="Refresh_Files" HorizontalAlignment="Left" Padding="3,0,3,0" Margin="10,10,0,0" VerticalAlignment="Top"/>
-        <DataGrid Name="fileDataGrid" CanUserDeleteRows="True" Margin="0,38,0,62" MaxWidth="780">
+        <Button Content="Process Files" Name="ProcessFile" Click="ProcessFiles_Click" HorizontalAlignment="Center" Padding="3,0,3,0" Margin="0,0,0,38" VerticalAlignment="Bottom" Width="400"/>
+        <DataGrid Name="fileDataGrid" CanUserDeleteRows="True" Margin="0,38,0,62" MaxWidth="780" RowHeaderWidth="0">
             <DataGrid.Resources>
                 <Style TargetType="{x:Type DataGridColumnHeader}">
                     <Setter Property="HorizontalAlignment" Value="Stretch"/>
@@ -19,18 +20,18 @@
                 </Style>
             </DataGrid.Resources>
             <DataGrid.Columns>
-                <DataGridTextColumn Header="File Name" Binding="{Binding category}"></DataGridTextColumn>
+                <DataGridTextColumn Header="File Name" Binding="{Binding fileName}"></DataGridTextColumn>
                 <DataGridTextColumn Header="File Path" Binding="{Binding filePath}"></DataGridTextColumn>
                 <!--<DataGridTextColumn Header="Hash" Binding="{Binding patternsToText}"></DataGridTextColumn>-->
-                <DataGridTextColumn Header="Last Modified" Binding="{Binding priority}"></DataGridTextColumn>
-                <DataGridTextColumn Header="Date Created" Binding="{Binding priority}"></DataGridTextColumn>
-                <!--<DataGridTemplateColumn Header="Ignore">
+                <!--<DataGridTextColumn Header="Last Modified" Binding="{Binding lastModified}"></DataGridTextColumn>
+                <DataGridTextColumn Header="Date Created" Binding="{Binding created}"></DataGridTextColumn>-->
+                <DataGridTemplateColumn Header="Ignore">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Button Content="Delete" Name="DeleteCategoryButton" ClickMode="Press" Click="DeleteCategoryButton_Click"/>
+                            <CheckBox Name="IgnoreFile" HorizontalAlignment="Center" Click="IgnoreFile_Click"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>-->
+                </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
     </Grid>

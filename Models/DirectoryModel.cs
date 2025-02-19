@@ -12,7 +12,7 @@ namespace File_Processor.Models
         [Key] public string directoryPath { get; set; }
         public String directoryName { get; set; }
 
-        public DirectoryModel(string directoryPath, String directoryName)
+        public DirectoryModel(string directoryPath, string directoryName)
         {
             this.directoryPath = directoryPath;
             this.directoryName = directoryName;

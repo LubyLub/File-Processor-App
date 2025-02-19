@@ -9,11 +9,7 @@ namespace File_Processor.Services
 {
     internal class FileService
     {
-        private FileModel fileModel {  get; set; }
-
-        internal FileService(FileModel file) { fileModel = file; }
-
-
+        public FileService() { }
 
     }
 }

@@ -13,6 +13,7 @@ namespace File_Processor.Models
         public ulong fileHash { get; set; }
         public DateTime lastModified { get; set; }
         public DateTime created { get; set; }
+        public bool ignore { get; set; }
 
         internal FileModel(String filePath, ulong fileHash, String fileName, DateTime lastModified, DateTime created)
         {
@@ -21,6 +22,7 @@ namespace File_Processor.Models
             this.lastModified = lastModified;
             this.created = created;
             this.fileHash = fileHash;
+            this.ignore = false;
         }
 
         public override string ToString()

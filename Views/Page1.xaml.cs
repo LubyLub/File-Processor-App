@@ -25,11 +25,18 @@ namespace File_Processor.Views
     {
         private List<FileModel> files;
         private DateTime lastRefreshed;
+        private DirectoryController directoryController;
+        private FileController fileController;
         public Page1()
         {
             InitializeComponent();
             files = new List<FileModel>();
+            directoryController = new DirectoryController();
+            fileController = new FileController();
             lastRefreshed = Properties.Settings.Default.LastChecked;
+            fileDataGrid.AutoGenerateColumns = false;
+
+            LoadFiles();
         }
 
         private void Change_To_Setting_Page(object sender, RoutedEventArgs e)
@@ -40,35 +47,59 @@ namespace File_Processor.Views
 
         private void Refresh_Files(object sender, RoutedEventArgs e)
         {
+            LoadFiles();
+        }
+        internal void LoadFiles()
+        {
             DateTime temp = DateTime.Now;
             GetFiles(lastRefreshed);
             lastRefreshed = temp;
-            //foreach (var file in files)
-            //{
-            //    Console.WriteLine(file);
-            //}
+            fileDataGrid.ItemsSource = files;
         }
-        
+
         private void GetFiles(DateTime dateTime)
         {
-            string directory = @"C:\Users\LubLub\Downloads";
+            List<DirectoryModel> directories = directoryController.GetDirectories();
             DateTime dateTime1 = DateTime.MinValue;
-            
-            var newFiles = Directory.GetFiles(directory)
+
+            foreach (DirectoryModel directory in directories)
+            {
+                var newFiles = Directory.GetFiles(directory.directoryPath)
                 .Select(f => new FileInfo(f))
                 .Where(f => f.LastWriteTime >= lastRefreshed)
                 .ToList();
 
-            foreach (var file in newFiles)
-            {
-                Console.WriteLine(file.FullName);
+                foreach (var file in newFiles)
+                {
+                    files.Add(fileController.FileToFileModel(file.FullName));
+                }
             }
-            //foreach (var file in newFiles)
-            //{
-            //    files.Add(file);
-            //}
         }
 
+        private void IgnoreFile_Click(object sender, RoutedEventArgs e)
+        {
+            CheckBox checkBox = (CheckBox)e.Source;
+            if (checkBox != null)
+            {
+                DataGridRow row = GetParent<DataGridRow>(checkBox);
+                FileModel rowData = (FileModel)row.DataContext;
+                if (rowData != null)
+                {
+                    rowData.ignore = !rowData.ignore;
+                }
+            }
+        }
 
+        private TargetType GetParent<TargetType>(DependencyObject o)
+            where TargetType : DependencyObject
+        {
+            if (o == null || o is TargetType) return (TargetType)o;
+            return GetParent<TargetType>(VisualTreeHelper.GetParent(o));
+        }
+
+        private void ProcessFiles_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

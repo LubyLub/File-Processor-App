@@ -11,23 +11,30 @@ using System.Security.Cryptography;
 using Extensions.Data;
 using System.IO;
 using System.Runtime.CompilerServices;
+using File_Processor.Services;
 
 namespace File_Processor.Controllers
 {
     internal class FileController
     {
-        private FileModel file;
+        private FileService _service;
 
-        internal FileController(String path)
+        public FileController()
+        {
+            _service = new FileService();
+        }
+
+        public FileModel FileToFileModel(String path)
         {
             String name = path.Split('\\').Last();
             ulong hash = FileToHash(path);
             DateTime first = File.GetCreationTime(path);
             DateTime last = File.GetLastWriteTime(path);
-            file = new FileModel(path, hash, name, last, first);
+            FileModel file = new FileModel(path, hash, name, last, first);
+            return file;
         }
 
-        internal static ulong FileToHash(String path) 
+        private ulong FileToHash(String path) 
         {
             using (var stream = File.OpenRead(path))
             {
