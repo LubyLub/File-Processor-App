@@ -15,6 +15,7 @@ namespace File_Processor
         {
             base.OnStartup(e);
             InitializeDb();
+            SetLastModified();
         }
 
         protected void OnExit(object sender, ExitEventArgs e)
@@ -28,6 +29,15 @@ namespace File_Processor
             {
                 db.Database.Migrate();
             } 
+        }
+
+        private void SetLastModified()
+        {
+            if (File_Processor.Properties.Settings.Default.LastChecked.Year == 1 )
+            {
+                File_Processor.Properties.Settings.Default.LastChecked = DateTime.Now;
+                File_Processor.Properties.Settings.Default.Save();
+            }
         }
     }
 

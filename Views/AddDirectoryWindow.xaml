@@ -1,0 +1,14 @@
+﻿<Window x:Class="File_Processor.Views.AddDirectoryWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:File_Processor.Views"
+        mc:Ignorable="d"
+        Title="AddDirectoryWindow" Height="170" Width="300" Closing="Window_Closing" ResizeMode="NoResize">
+    <Grid>
+        <TextBox Name="directoryName" HorizontalAlignment="Center" Height="30" Padding="0,0,0,0" Margin="0,15,0,0" TextWrapping="Wrap" Text="Input Directory Name" VerticalAlignment="Top" Width="180"/>
+        <TextBox Name="directoryPath" HorizontalAlignment="Center" Height="30" Padding="0,0,0,0" Margin="0,55,0,0" TextWrapping="Wrap" Text="Input Directory Path" VerticalAlignment="Top" Width="180"/>
+        <Button Name="processDirectory" Content="Add" Click="AddDirectory" HorizontalAlignment="Center" VerticalAlignment="Top" Width="180" Margin="0,100,0,0"/>
+    </Grid>
+</Window>

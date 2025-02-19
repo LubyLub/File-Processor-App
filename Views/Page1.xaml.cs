@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -13,6 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using File_Processor.Controllers;
+using File_Processor.Models;
 
 namespace File_Processor.Views
 {
@@ -21,30 +23,52 @@ namespace File_Processor.Views
     /// </summary>
     public partial class Page1 : Page
     {
-        //private CategoryController categoryController;
-        //private CategoryClassificationController categoryClassificationController;
+        private List<FileModel> files;
+        private DateTime lastRefreshed;
         public Page1()
         {
             InitializeComponent();
-            //categoryController = new CategoryController(this);
+            files = new List<FileModel>();
+            lastRefreshed = Properties.Settings.Default.LastChecked;
         }
-
-        //private void Add_Category(object sender, RoutedEventArgs e)
-        //{
-        //    string givenPath = categoryFilePath.Text; // Grabs Text in a TextBox named manualFilePath"
-        //    string category = categoryName.Text;
-        //    // Adding Category
-        //    int result = categoryController.addCategory(givenPath, category);
-        //    if (result == 1) { MessageBox.Show("Category \'" + category + ":" + givenPath + "\' Successfuly Added"); }
-        //    else if (result == 2) { MessageBox.Show("Category \'" + category + ":" + givenPath + "\' Updated"); }
-        //    else { MessageBox.Show("Category not added"); }
-        //}
 
         private void Change_To_Setting_Page(object sender, RoutedEventArgs e)
         {
-            MainWindow mainWindow = (MainWindow) Window.GetWindow(this);
+            MainWindow mainWindow = (MainWindow)Window.GetWindow(this);
             mainWindow.MainFrame.Source = new Uri("Page2.xaml", UriKind.Relative);
-            //NavigationService.Navigate(new Uri("Page2.xaml", UriKind.Relative));
         }
+
+        private void Refresh_Files(object sender, RoutedEventArgs e)
+        {
+            DateTime temp = DateTime.Now;
+            GetFiles(lastRefreshed);
+            lastRefreshed = temp;
+            //foreach (var file in files)
+            //{
+            //    Console.WriteLine(file);
+            //}
+        }
+        
+        private void GetFiles(DateTime dateTime)
+        {
+            string directory = @"C:\Users\LubLub\Downloads";
+            DateTime dateTime1 = DateTime.MinValue;
+            
+            var newFiles = Directory.GetFiles(directory)
+                .Select(f => new FileInfo(f))
+                .Where(f => f.LastWriteTime >= lastRefreshed)
+                .ToList();
+
+            foreach (var file in newFiles)
+            {
+                Console.WriteLine(file.FullName);
+            }
+            //foreach (var file in newFiles)
+            //{
+            //    files.Add(file);
+            //}
+        }
+
+
     }
 }

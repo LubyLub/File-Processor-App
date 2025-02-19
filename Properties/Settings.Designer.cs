@@ -23,11 +23,15 @@ namespace File_Processor.Properties {
             }
         }
         
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0001-01-02")]
         public global::System.DateTime LastChecked {
             get {
                 return ((global::System.DateTime)(this["LastChecked"]));
+            }
+            set {
+                this["LastChecked"] = value;
             }
         }
         

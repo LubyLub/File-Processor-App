@@ -26,6 +26,7 @@ namespace File_Processor.Views
     {
         private CategoryMergedController _mergedController;
         private CategoryController _categoryController;
+        private DirectoryController _directoryController;
         private DbDefinition _context;
         public Page2()
         {
@@ -33,8 +34,10 @@ namespace File_Processor.Views
             _context = new DbDefinition();
             _mergedController = new CategoryMergedController();
             _categoryController = new CategoryController();
+            _directoryController = new DirectoryController();
 
             categoryDataGrid.AutoGenerateColumns = false;
+            directoryDataGrid.AutoGenerateColumns = false;
             SetCheckBoxValues();
             LoadCategories();
         }
@@ -93,6 +96,9 @@ namespace File_Processor.Views
                             break;
                         case "Security":
                             break;
+                        case "Directories":
+                            LoadDirectories();
+                            break;
                         default:
                             break;
                     }
@@ -101,7 +107,6 @@ namespace File_Processor.Views
             }
         }
         
-
         private void DeleteCategoryButton_Click(object sender, RoutedEventArgs e)
         {
             Button button = (Button)e.Source;
@@ -185,5 +190,40 @@ namespace File_Processor.Views
             }
             Properties.Settings.Default.Save();
         }
+
+        private void AddDirectory_Click(object sender, RoutedEventArgs e)
+        {
+            AddDirectoryWindow win = new AddDirectoryWindow(this);
+            MainWindow mainWindow = (MainWindow)Window.GetWindow(this);
+            win.Owner = mainWindow;
+            mainWindow.LockWindow();
+            win.Show();
+        }
+
+        private void DeleteDirectoryButton_Click(object sender, RoutedEventArgs e)
+        {
+            Button button = (Button)e.Source;
+            if (button != null)
+            {
+                DataGridRow row = GetParent<DataGridRow>(button);
+                DirectoryModel rowData = (DirectoryModel)row.DataContext;
+                if (rowData != null)
+                {
+                    String name = rowData.directoryName;
+                    String path = rowData.directoryPath;
+                    bool result = _directoryController.RemoveDirectory(path);
+                    if (result)
+                    {
+                        LoadCategories();
+                    }
+                }
+            }
+        }
+        internal void LoadDirectories()
+        {
+            List<DirectoryModel> data = _directoryController.GetDirectories();
+            directoryDataGrid.ItemsSource = data;
+        }
+
     }
 }

@@ -85,7 +85,7 @@ namespace File_Processor.Views
             //    Close();
             //}
             Close();
-            _page.LoadCategories();
+            //_page.LoadCategories();
         }
         private bool AddCategoryClassifications()
         {

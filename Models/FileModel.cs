@@ -22,5 +22,10 @@ namespace File_Processor.Models
             this.created = created;
             this.fileHash = fileHash;
         }
+
+        public override string ToString()
+        {
+            return "Name: " + fileName + " | Path: " + filePath + " | Last Modified: " + lastModified;
+        }
     }
 }

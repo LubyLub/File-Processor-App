@@ -12,6 +12,7 @@ namespace File_Processor.Models
     {
         internal DbSet<CategoryModel> Categories { get; set; }
         internal DbSet<CategoryClassificationModel> CategoriesClassification { get; set; }
+        internal DbSet<DirectoryModel> Directories { get; set; }
 
         internal string DbPath { get; }
         public DbDefinition() 
