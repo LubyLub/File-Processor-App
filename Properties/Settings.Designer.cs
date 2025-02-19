@@ -118,5 +118,17 @@ namespace File_Processor.Properties {
                 this["FileEncryption"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string TotalVirusAPIKey {
+            get {
+                return ((string)(this["TotalVirusAPIKey"]));
+            }
+            set {
+                this["TotalVirusAPIKey"] = value;
+            }
+        }
     }
 }

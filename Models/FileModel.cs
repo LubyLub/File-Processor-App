@@ -9,13 +9,13 @@ namespace File_Processor.Models
     public class FileModel
     {
         public string filePath { get; set; }
-        public String fileName { get; set; }
-        public ulong fileHash { get; set; }
+        public string fileName { get; set; }
+        public string fileHash { get; set; }
         public DateTime lastModified { get; set; }
         public DateTime created { get; set; }
         public bool ignore { get; set; }
 
-        internal FileModel(String filePath, ulong fileHash, String fileName, DateTime lastModified, DateTime created)
+        internal FileModel(string filePath, string fileHash, string fileName, DateTime lastModified, DateTime created)
         {
             this.filePath = filePath;
             this.fileName = fileName;
@@ -27,7 +27,7 @@ namespace File_Processor.Models
 
         public override string ToString()
         {
-            return "Name: " + fileName + " | Path: " + filePath + " | Last Modified: " + lastModified;
+            return "Name: " + fileName + " | Path: " + filePath + " | Last Modified: " + lastModified + " | Hash: " + fileHash;
         }
     }
 }

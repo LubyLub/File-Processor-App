@@ -54,6 +54,7 @@ namespace File_Processor.Views
             DateTime temp = DateTime.Now;
             GetFiles(lastRefreshed);
             lastRefreshed = temp;
+            fileDataGrid.ItemsSource = null;
             fileDataGrid.ItemsSource = files;
         }
 
@@ -99,7 +100,20 @@ namespace File_Processor.Views
 
         private void ProcessFiles_Click(object sender, RoutedEventArgs e)
         {
+            DateTime dateTimeOfClick = DateTime.Now;
+            //Process the Files
+            foreach (var file in files)
+            {
+                if (file.ignore) { continue; }
+                //Remember to implement a logging system
+                fileController.ProcessFile(file);
+            }
 
+            //Reset File List, last refreshed and the user setting last checked
+            files = new List<FileModel>();
+            Properties.Settings.Default.LastChecked = dateTimeOfClick;
+            lastRefreshed = Properties.Settings.Default.LastChecked;
+            //Properties.Settings.Default.Save();
         }
     }
 }
