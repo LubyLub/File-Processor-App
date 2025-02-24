@@ -12,13 +12,15 @@ namespace File_Processor.Models
         public String filePath { get; set; }
         public int priority { get; set; }
         public List<String> patterns { get; set; }
+        public List<int> types { get; set; }
 
-        public CategoryMergedModel(String name, String path, List<String> patternList, int priority) 
+        public CategoryMergedModel(String name, String path, List<String> patternList, List<int> types, int priority) 
         { 
             this.category = name;
             this.filePath = path;
             this.priority = priority;
             this.patterns = patternList;
+            this.types = types;
         }
 
         public override String ToString() 

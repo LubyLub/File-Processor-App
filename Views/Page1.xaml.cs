@@ -72,7 +72,7 @@ namespace File_Processor.Views
 
                 foreach (var file in newFiles)
                 {
-                    files.Add(fileController.FileToFileModel(file.FullName));
+                    files.Add(fileController.FileToFileModel(file));
                 }
             }
         }
@@ -101,17 +101,34 @@ namespace File_Processor.Views
         private void ProcessFiles_Click(object sender, RoutedEventArgs e)
         {
             DateTime dateTimeOfClick = DateTime.Now;
+            DateTime minDate = DateTime.MinValue;
             //Process the Files
             foreach (var file in files)
             {
                 if (file.ignore) { continue; }
                 //Remember to implement a logging system
-                fileController.ProcessFile(file);
+                fileController.ProcessFile(file); //Implement a boolean return or make it return a log class
+                //if (false)
+                //{
+                //    break;
+                //}
+                files.Remove(file);
             }
 
             //Reset File List, last refreshed and the user setting last checked
-            files = new List<FileModel>();
-            Properties.Settings.Default.LastChecked = dateTimeOfClick;
+            if (files.Count != 0)
+            {
+                foreach (var file in files)
+                {
+                    if (file.lastModified < minDate) { minDate = file.lastModified; }
+                }
+                Properties.Settings.Default.LastChecked = minDate;
+            }
+            else
+            {
+                files = new List<FileModel>();
+                Properties.Settings.Default.LastChecked = dateTimeOfClick;
+            }
             lastRefreshed = Properties.Settings.Default.LastChecked;
             //Properties.Settings.Default.Save();
         }

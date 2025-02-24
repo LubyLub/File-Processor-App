@@ -33,25 +33,10 @@ namespace File_Processor.Controllers
             return "";
         }
 
-        public FileModel FileToFileModel(string path)
+        public FileModel FileToFileModel(FileInfo fileInfo)
         {
-            string name = path.Split('\\').Last();
-            string hash = FileToHash(path);
-            DateTime first = File.GetCreationTime(path);
-            DateTime last = File.GetLastWriteTime(path);
-            FileModel file = new FileModel(path, hash, name, last, first);
-            Console.WriteLine(file);
-            return file;
-        }
 
-        private string FileToHash(string path) 
-        {
-            using (var md5 = MD5.Create())
-            using (var stream = File.OpenRead(path))
-            {
-                byte[] hash = md5.ComputeHash(stream);
-                return BitConverter.ToString(hash).Replace("-", "");
-            }
+            return _service.PathToFileModel(fileInfo.FullName);
         }
     }
 }
