@@ -12,14 +12,51 @@ using File_Processor.Controllers;
 using static System.Net.WebRequestMethods;
 using File_Processor.Models;
 using System.Security.Cryptography;
+using System.Windows.Shapes;
+using System.Text.RegularExpressions;
 
 namespace File_Processor.Services
 {
     internal class FileService
     {
+        private CategoryMergedService categoryMergedService;
+
+        public FileService()
+        {
+            categoryMergedService = new CategoryMergedService();
+        }
         public void categorizeFile(FileModel file)
         {
+            List<CategoryMergedModel> categories = categoryMergedService.getCategoryAndClassifications();
+            List<CategoryMergedModel> flaggedCategories = new List<CategoryMergedModel>();
+            String fileContents = readWholeFile(file.filePath);
+            foreach (CategoryMergedModel c in categories)
+            {
+                for (int i = 0; i < c.patterns.Count; i++)
+                {
+                    string pattern = c.patterns[i];
+                    if (c.types[i] == ((int)PatternType.Keyword))
+                    {
+                        //Implement capability to handle pdfs, doc, videos and whatever you can think
 
+
+                        //txt implementation only
+                        if (fileContents.Contains(pattern)) { flaggedCategories.Add(c); break; }
+                    }
+                    else
+                    {
+                        Regex r = new Regex(pattern);
+                        Match m = r.Match(fileContents);
+                        //Implement capability to handle pdfs, doc, videos and whatever you can think
+
+
+                        //txt implementation only
+                        if (m.Success) { flaggedCategories.Add(c); break; }
+                    }
+                }
+            }
+
+            //Handle the path change depending on number of category matches
         }
         public void deduplicationFile(FileModel file)
         {
@@ -124,6 +161,16 @@ namespace File_Processor.Services
                 byte[] hash = md5.ComputeHash(stream);
                 return BitConverter.ToString(hash).Replace("-", "");
             }
+        }
+
+        private IEnumerable<String> readFile(string path)
+        {
+            return IO.File.ReadLines(path);
+        }
+
+        private String readWholeFile(string path)
+        {
+            return IO.File.ReadAllText(path);
         }
     }
 }
