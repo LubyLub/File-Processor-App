@@ -98,7 +98,7 @@ namespace File_Processor.Views
             return GetParent<TargetType>(VisualTreeHelper.GetParent(o));
         }
 
-        private void ProcessFiles_Click(object sender, RoutedEventArgs e)
+        private async void ProcessFiles_Click(object sender, RoutedEventArgs e)
         {
             DateTime dateTimeOfClick = DateTime.Now;
             DateTime minDate = DateTime.MinValue;
@@ -107,7 +107,9 @@ namespace File_Processor.Views
             {
                 if (file.ignore) { continue; }
                 //Remember to implement a logging system
-                fileController.ProcessFile(file); //Implement a boolean return or make it return a log class
+                //var log = fileController.ProcessFileStage1(file).Result;
+                var log = await fileController.ProcessFileStage1(file); //Implement a boolean return or make it return a log class
+                fileController.ProcessFileStage2(file, log);
                 //if (false)
                 //{
                 //    break;

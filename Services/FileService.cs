@@ -10,10 +10,10 @@ using System.Text.Json;
 using IO = System.IO;
 using File_Processor.Controllers;
 using static System.Net.WebRequestMethods;
-using File_Processor.Models;
 using System.Security.Cryptography;
 using System.Windows.Shapes;
 using System.Text.RegularExpressions;
+using File_Processor.Exceptions;
 
 namespace File_Processor.Services
 {
@@ -25,7 +25,7 @@ namespace File_Processor.Services
         {
             categoryMergedService = new CategoryMergedService();
         }
-        public void categorizeFile(FileModel file)
+        public List<CategoryMergedModel> categorizeFile(FileModel file)
         {
             List<CategoryMergedModel> categories = categoryMergedService.getCategoryAndClassifications();
             List<CategoryMergedModel> flaggedCategories = new List<CategoryMergedModel>();
@@ -56,7 +56,7 @@ namespace File_Processor.Services
                 }
             }
 
-            //Handle the path change depending on number of category matches
+            return flaggedCategories;
         }
         public void deduplicationFile(FileModel file)
         {
@@ -108,7 +108,7 @@ namespace File_Processor.Services
 
         public async Task<bool> malwareAnalysisOfFile(FileModel file)
         {
-            if (!connectedToInternet()) { /*Log no connection exists. Stop File Processing from occuring and rollback/reset/some protocal and warn user to either find connection or disable malware analysis*/ }
+            if (!connectedToInternet()) { throw new NoInternetConnectionException(); }
             var options = new RestClientOptions("https://www.virustotal.com/api/v3/files/" + file.fileHash);
             var client = new RestClient(options);
             var request = new RestRequest("");

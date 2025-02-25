@@ -11,6 +11,7 @@ using System.Security.Cryptography;
 using System.IO;
 using System.Runtime.CompilerServices;
 using File_Processor.Services;
+using File_Processor.Exceptions;
 
 namespace File_Processor.Controllers
 {
@@ -23,14 +24,39 @@ namespace File_Processor.Controllers
             _service = new FileService();
         }
 
-        public string ProcessFile(FileModel file)
+        public async Task<FileLogModel> ProcessFileStage1(FileModel file)
         {
             //Remember to implement a logging system using either strings or a Log class
-            if (Properties.Settings.Default.Security && Properties.Settings.Default.MalwareAnalysis) { _service.malwareAnalysisOfFile(file); }
-            _service.categorizeFile(file);
+            FileLogModel log = new FileLogModel(file.filePath);
+
+            //Run Malware Analysis
+            if (Properties.Settings.Default.Security && Properties.Settings.Default.MalwareAnalysis) 
+            {
+                try
+                {
+                    log.isMalicious = await _service.malwareAnalysisOfFile(file);
+                }
+                catch (NoInternetConnectionException e)
+                {
+                    log.error = true;
+                }
+            }
+
+            //Find related categories
+            log.flaggedCategories = _service.categorizeFile(file);
+
+            return log;
+        }
+
+        public FileLogModel ProcessFileStage2(FileModel file, FileLogModel log)
+        {
+            //Deduplicate file based on its destination address
             if (Properties.Settings.Default.Deduplication) { _service.deduplicationFile(file); }
+
+            //Encrypt File if required
             if (Properties.Settings.Default.Security && Properties.Settings.Default.FileEncryption) { _service.encryptFile(file); }
-            return "";
+
+            return log;
         }
 
         public FileModel FileToFileModel(FileInfo fileInfo)
