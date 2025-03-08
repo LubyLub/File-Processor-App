@@ -27,83 +27,18 @@ namespace File_Processor.Services
         }
         public List<CategoryMergedModel> categorizeFile(FileModel file)
         {
-            List<CategoryMergedModel> categories = categoryMergedService.getCategoryAndClassifications();
-            List<CategoryMergedModel> flaggedCategories = new List<CategoryMergedModel>();
-            String fileContents = readWholeFile(file.filePath);
-            foreach (CategoryMergedModel c in categories)
-            {
-                for (int i = 0; i < c.patterns.Count; i++)
-                {
-                    string pattern = c.patterns[i];
-                    if (c.types[i] == ((int)PatternType.Keyword))
-                    {
-                        //Implement capability to handle pdfs, doc, videos and whatever you can think
-
-
-                        //txt implementation only
-                        if (fileContents.Contains(pattern)) { flaggedCategories.Add(c); break; }
-                    }
-                    else
-                    {
-                        Regex r = new Regex(pattern);
-                        Match m = r.Match(fileContents);
-                        //Implement capability to handle pdfs, doc, videos and whatever you can think
-
-
-                        //txt implementation only
-                        if (m.Success) { flaggedCategories.Add(c); break; }
-                    }
-                }
-            }
-
-            return flaggedCategories;
+            FileProcessor fileProcessor = FileProcessorFactory.getProcessor(file.extension);
+            return fileProcessor.categorizeFile(file);
         }
-        public void deduplicationFile(FileModel file)
+        public bool deduplicationFile(FileModel file)
         {
-            //Remeber To handle video deduplication (fuzzy hashing) once default deduplication works (possible use of Hash Factory Design pattern for normal vs video)
-            int ind = file.filePath.LastIndexOf('\\');
-            DirectoryModel directory = new DirectoryModel(file.filePath.Substring(0, ind), "");
-            var filesInDirectory = IO.Directory.GetFiles(directory.directoryPath).Select(f => new IO.FileInfo(f));
-
-            bool exists = false;
-            bool useName = Properties.Settings.Default.UseFileNameDeduplication;
-            bool useContent = Properties.Settings.Default.UseFileContentDeduplication;
-
-            foreach (IO.FileInfo fileInfo in filesInDirectory)
-            {
-                if (useName)
-                {
-                    if (file.fileName.Equals(fileInfo.Name))
-                    {
-                        exists = true;
-                        break;
-                    }
-                }
-                if (useContent)
-                {
-                    if (file.fileHash.Equals(FileToHash(fileInfo.FullName)))
-                    {
-                        exists = true;
-                        break;
-                    }
-                }
-            }
-
-            if (exists)
-            {
-                IO.File.Delete(file.filePath);
-            }
+            FileProcessor fileProcessor = FileProcessorFactory.getProcessor(file.extension);
+            return fileProcessor.deduplicationFile(file);
         }
-
-        //public void secureFile(FileModel file)
-        //{
-        //    if (Properties.Settings.Default.FileEncryption) { encryptFile(file); }
-        //    if (Properties.Settings.Default.MalwareAnalysis) { malwareAnalysisOfFile(file); }
-        //}
 
         public void encryptFile(FileModel file)
         {
-
+            
         }
 
         public async Task<bool> malwareAnalysisOfFile(FileModel file)
@@ -142,35 +77,15 @@ namespace File_Processor.Services
             catch (Exception e) { return false; }
         }
 
-        public FileModel PathToFileModel(string path)
+        public FileModel PathToFileModel(string path, String extension)
         {
             string name = path.Split('\\').Last();
-            string hash = FileToHash(path);
+            string hash = (FileProcessorFactory.getProcessor(extension)).FileToHash(path);
             DateTime first = IO.File.GetCreationTime(path);
             DateTime last = IO.File.GetLastWriteTime(path);
-            FileModel file = new FileModel(path, hash, name, last, first);
+            FileModel file = new FileModel(path, hash, name, extension, last, first);
             Console.WriteLine(file);
             return file;
-        }
-
-        private string FileToHash(string path)
-        {
-            using (var md5 = MD5.Create())
-            using (var stream = IO.File.OpenRead(path))
-            {
-                byte[] hash = md5.ComputeHash(stream);
-                return BitConverter.ToString(hash).Replace("-", "");
-            }
-        }
-
-        private IEnumerable<String> readFile(string path)
-        {
-            return IO.File.ReadLines(path);
-        }
-
-        private String readWholeFile(string path)
-        {
-            return IO.File.ReadAllText(path);
         }
     }
 }

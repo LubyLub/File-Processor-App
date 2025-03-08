@@ -28,7 +28,7 @@
                 <DataGridTemplateColumn Header="Ignore">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <CheckBox Name="IgnoreFile" HorizontalAlignment="Center" Click="IgnoreFile_Click"/>
+                            <CheckBox Name="IgnoreFile" HorizontalAlignment="Center" Click="IgnoreFile_Click" IsChecked="{Binding ignore}" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>

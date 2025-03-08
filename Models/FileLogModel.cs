@@ -12,7 +12,7 @@ namespace File_Processor.Models
         public string sourcePath { get; set; }
         public string destinationPath { get; set; }
         public List<CategoryMergedModel> flaggedCategories { get; set; }
-        public bool error {  get; set; }
+        public bool error { get; set; }
         public string message { get; set; }
 
         public FileLogModel() : this("")

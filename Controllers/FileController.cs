@@ -51,7 +51,17 @@ namespace File_Processor.Controllers
         public FileLogModel ProcessFileStage2(FileModel file, FileLogModel log)
         {
             //Deduplicate file based on its destination address
-            if (Properties.Settings.Default.Deduplication) { _service.deduplicationFile(file); }
+            if (Properties.Settings.Default.Deduplication) 
+            {
+                try
+                {
+                    _service.deduplicationFile(file);
+                }
+                catch (Exception e)
+                {
+                    log.error = true;
+                }
+            }
 
             //Encrypt File if required
             if (Properties.Settings.Default.Security && Properties.Settings.Default.FileEncryption) { _service.encryptFile(file); }
@@ -61,8 +71,7 @@ namespace File_Processor.Controllers
 
         public FileModel FileToFileModel(FileInfo fileInfo)
         {
-
-            return _service.PathToFileModel(fileInfo.FullName);
+            return _service.PathToFileModel(fileInfo.FullName, fileInfo.Extension);
         }
     }
 }

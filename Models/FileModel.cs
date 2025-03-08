@@ -14,14 +14,16 @@ namespace File_Processor.Models
         public DateTime lastModified { get; set; }
         public DateTime created { get; set; }
         public bool ignore { get; set; }
+        public string extension { get; set; }
 
-        internal FileModel(string filePath, string fileHash, string fileName, DateTime lastModified, DateTime created)
+        internal FileModel(string filePath, string fileHash, string fileName, string extension, DateTime lastModified, DateTime created)
         {
             this.filePath = filePath;
             this.fileName = fileName;
             this.lastModified = lastModified;
             this.created = created;
             this.fileHash = fileHash;
+            this.extension = extension;
             this.ignore = false;
         }
 

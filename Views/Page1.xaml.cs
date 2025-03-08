@@ -84,9 +84,12 @@ namespace File_Processor.Views
             {
                 DataGridRow row = GetParent<DataGridRow>(checkBox);
                 FileModel rowData = (FileModel)row.DataContext;
+
                 if (rowData != null)
                 {
                     rowData.ignore = !rowData.ignore;
+                    fileDataGrid.ItemsSource = null;
+                    fileDataGrid.ItemsSource = files;
                 }
             }
         }
@@ -103,17 +106,30 @@ namespace File_Processor.Views
             DateTime dateTimeOfClick = DateTime.Now;
             DateTime minDate = DateTime.MinValue;
             //Process the Files
-            foreach (var file in files)
+            while (files.Count > 0)
             {
-                if (file.ignore) { continue; }
-                //Remember to implement a logging system
-                //var log = fileController.ProcessFileStage1(file).Result;
-                var log = await fileController.ProcessFileStage1(file); //Implement a boolean return or make it return a log class
-                fileController.ProcessFileStage2(file, log);
-                //if (false)
-                //{
-                //    break;
-                //}
+                FileModel file = files.First();
+                if (!file.ignore)
+                {
+                    var log = await fileController.ProcessFileStage1(file);
+
+                    //Choose destination path of file based on return categories (log.flaggedCategories)
+                    if (log.flaggedCategories.Count > 1)
+                    {
+                        //Create and await for window to select among multiple categories
+                    }
+                    else if (log.flaggedCategories.Count == 1) { log.destinationPath = log.flaggedCategories[0].filePath + "\\" + file.fileName; }
+                    else { log.destinationPath = log.sourcePath; }
+                    //End of destination path decision
+
+                    if (!log.error) { fileController.ProcessFileStage2(file, log); }
+                    //If either stage1 or stage2 cause a log.error, break
+                    if (log.error)
+                    {
+                        Console.WriteLine("hello");
+                        break;
+                    }
+                }
                 files.Remove(file);
             }
 
@@ -132,6 +148,7 @@ namespace File_Processor.Views
                 Properties.Settings.Default.LastChecked = dateTimeOfClick;
             }
             lastRefreshed = Properties.Settings.Default.LastChecked;
+            LoadFiles();
             //Properties.Settings.Default.Save();
         }
     }
