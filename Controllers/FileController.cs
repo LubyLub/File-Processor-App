@@ -27,7 +27,7 @@ namespace File_Processor.Controllers
         public async Task<FileLogModel> ProcessFileStage1(FileModel file)
         {
             //Remember to implement a logging system using either strings or a Log class
-            FileLogModel log = new FileLogModel(file.filePath);
+            FileLogModel log = new FileLogModel(file.filePath.Substring(0, file.filePath.LastIndexOf('\\')));
 
             //Run Malware Analysis
             if (Properties.Settings.Default.Security && Properties.Settings.Default.MalwareAnalysis) 
@@ -43,9 +43,10 @@ namespace File_Processor.Controllers
             }
 
             //Find related categories
-            log.flaggedCategories = _service.categorizeFile(file);
+            if (!log.error) { log.flaggedCategories = _service.categorizeFile(file); }
+            else { log.flaggedCategories = new List<CategoryMergedModel>(); }
 
-            return log;
+                return log;
         }
 
         public FileLogModel ProcessFileStage2(FileModel file, FileLogModel log)
@@ -55,7 +56,7 @@ namespace File_Processor.Controllers
             {
                 try
                 {
-                    _service.deduplicationFile(file);
+                    log.delete = _service.deduplicationFile(file);
                 }
                 catch (Exception e)
                 {

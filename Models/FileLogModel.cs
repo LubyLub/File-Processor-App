@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace File_Processor.Models
 {
-    internal class FileLogModel
+    public class FileLogModel
     {
         public bool isMalicious {  get; set; }
         public string sourcePath { get; set; }
@@ -14,6 +14,7 @@ namespace File_Processor.Models
         public List<CategoryMergedModel> flaggedCategories { get; set; }
         public bool error { get; set; }
         public string message { get; set; }
+        public bool delete { get; set; }
 
         public FileLogModel() : this("")
         {
@@ -27,6 +28,7 @@ namespace File_Processor.Models
             destinationPath = "";
             flaggedCategories = new List<CategoryMergedModel>();
             error = false;
+            delete = false;
             message = "";
         }
     }

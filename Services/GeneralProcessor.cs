@@ -23,20 +23,13 @@ namespace File_Processor.Services
                     string pattern = c.patterns[i];
                     if (c.types[i] == ((int)PatternType.Keyword))
                     {
-                        //Implement capability to handle pdfs, doc, videos and whatever you can think
-
-
-                        //txt implementation only
                         if (fileContents.Contains(pattern)) { flaggedCategories.Add(c); break; }
                     }
                     else
                     {
                         Regex r = new Regex(pattern);
                         Match m = r.Match(fileContents);
-                        //Implement capability to handle pdfs, doc, videos and whatever you can think
-
-
-                        //txt implementation only
+                        
                         if (m.Success) { flaggedCategories.Add(c); break; }
                     }
                 }
@@ -54,6 +47,7 @@ namespace File_Processor.Services
             bool exists = false;
             bool useName = Properties.Settings.Default.UseFileNameDeduplication;
             bool useContent = Properties.Settings.Default.UseFileContentDeduplication;
+            int sameContent = 0;
 
             foreach (FileInfo fileInfo in filesInDirectory)
             {
@@ -69,19 +63,17 @@ namespace File_Processor.Services
                 {
                     if (file.fileHash.Equals(FileToHash(fileInfo.FullName)))
                     {
-                        exists = true;
-                        break;
+                        sameContent++;
+                        if (sameContent > 1)
+                        {
+                            exists = true;
+                            break;
+                        }
                     }
                 }
             }
 
-            if (exists)
-            {
-                File.Delete(file.filePath);
-                return true;
-            }
-
-            return false;
+            return exists;
         }
 
         public override void encryptFile(FileModel file)

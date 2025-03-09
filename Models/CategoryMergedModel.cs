@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace File_Processor.Models
 {
-    class CategoryMergedModel
+    public class CategoryMergedModel
     {
         public String category { get; set; }
         public String filePath { get; set; }

@@ -112,21 +112,56 @@ namespace File_Processor.Views
                 if (!file.ignore)
                 {
                     var log = await fileController.ProcessFileStage1(file);
+                    bool faulyMove = false;
 
                     //Choose destination path of file based on return categories (log.flaggedCategories)
-                    if (log.flaggedCategories.Count > 1)
+                    if (!log.error)
                     {
-                        //Create and await for window to select among multiple categories
+                        if (log.flaggedCategories.Count > 1)
+                        {
+                            //Create and await for window to select among multiple categories
+                            bool result = await multipleCategoryWindow(file, log);
+                            if (!result) { log.error = true; }
+                        }
+                        else if (log.flaggedCategories.Count == 1) { log.destinationPath = log.flaggedCategories[0].filePath; }
+                        else { log.destinationPath = log.sourcePath; }
+                        //End of destination path decision
+
+                        //Move file into destination path
+                        try
+                        {
+                            File.Move(log.sourcePath + "\\" + file.fileName, log.destinationPath + "\\" + file.fileHash + file.fileName);
+                            file.filePath = log.destinationPath + "\\" + file.fileName;
+                            faulyMove = true;
+                        }
+                        catch (Exception ex)
+                        {
+                            log.error = true;
+                        }
                     }
-                    else if (log.flaggedCategories.Count == 1) { log.destinationPath = log.flaggedCategories[0].filePath + "\\" + file.fileName; }
-                    else { log.destinationPath = log.sourcePath; }
-                    //End of destination path decision
 
                     if (!log.error) { fileController.ProcessFileStage2(file, log); }
                     //If either stage1 or stage2 cause a log.error, break
+                    if (!log.error)
+                    {
+                        try
+                        {
+                            if (!log.delete) { File.Move(log.destinationPath + "\\" + file.fileHash + file.fileName, file.filePath); }
+                            else { File.Delete(log.destinationPath + "\\" + file.fileHash + file.fileName); }
+                            faulyMove = false;
+                        }
+                        catch (Exception ex)
+                        {
+                            log.error = true;
+                        }
+                    }
                     if (log.error)
                     {
-                        Console.WriteLine("hello");
+                        if (faulyMove) 
+                        {
+                            File.Move(log.destinationPath + "\\" + file.fileHash + file.fileName, log.sourcePath + "\\" + file.fileName);
+                        }
+                        MessageBox.Show("Error encountered while processing " + file.fileName);
                         break;
                     }
                 }
@@ -144,12 +179,23 @@ namespace File_Processor.Views
             }
             else
             {
-                files = new List<FileModel>();
                 Properties.Settings.Default.LastChecked = dateTimeOfClick;
             }
+            files = new List<FileModel>();
             lastRefreshed = Properties.Settings.Default.LastChecked;
             LoadFiles();
             //Properties.Settings.Default.Save();
+        }
+
+        private Task<bool> multipleCategoryWindow(FileModel file, FileLogModel log)
+        {
+            DestinationCategoryWindow win = new DestinationCategoryWindow(file, log);
+            var task = new TaskCompletionSource<bool>();
+            win.Owner = Application.Current.MainWindow;
+            win.Closed += (s, a) => { task.SetResult(true); };
+            win.Show();
+            win.Focus();
+            return task.Task;
         }
     }
 }
