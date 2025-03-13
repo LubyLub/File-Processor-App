@@ -18,10 +18,5 @@ namespace File_Processor.Services
         {
             throw new NotImplementedException();
         }
-
-        public override void encryptFile(FileModel file)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

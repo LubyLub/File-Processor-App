@@ -75,10 +75,5 @@ namespace File_Processor.Services
 
             return exists;
         }
-
-        public override void encryptFile(FileModel file)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

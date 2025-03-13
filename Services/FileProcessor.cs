@@ -19,7 +19,6 @@ namespace File_Processor.Services
 
         public abstract List<CategoryMergedModel> categorizeFile(FileModel file);
         public abstract bool deduplicationFile(FileModel file);
-        public abstract void encryptFile(FileModel file);
         //public abstract Task<bool> malwareAnalysisOfFile(FileModel file);
 
         private protected String readWholeFile(string path)

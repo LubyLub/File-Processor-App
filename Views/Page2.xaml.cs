@@ -44,7 +44,6 @@ namespace File_Processor.Views
 
         private void SetCheckBoxValues()
         {
-            MultipleCategoryCheckBox.IsChecked = Properties.Settings.Default.MultipleCategories;
             UseDeduplication.IsChecked = Properties.Settings.Default.Deduplication;
             UseFileNamesForDeduplication.IsChecked = Properties.Settings.Default.UseFileNameDeduplication;
             UseFileContentForDeduplication.IsChecked = Properties.Settings.Default.UseFileContentDeduplication;
@@ -160,11 +159,7 @@ namespace File_Processor.Views
         private void UserSettingChange_Click(object sender, RoutedEventArgs e)
         {
             CheckBox setting = (CheckBox)sender;
-            if (setting.Equals(MultipleCategoryCheckBox))
-            {
-                Properties.Settings.Default.MultipleCategories = (bool)setting.IsChecked;
-            }
-            else if (setting.Equals(UseDeduplication))
+            if (setting.Equals(UseDeduplication))
             {
                 Properties.Settings.Default.Deduplication = (bool)setting.IsChecked;
             }
@@ -225,5 +220,13 @@ namespace File_Processor.Views
             directoryDataGrid.ItemsSource = data;
         }
 
+        private void APIKeyButton_Click(object sender, RoutedEventArgs e)
+        {
+            string key = APIKey.Text;
+            Properties.Settings.Default.TotalVirusAPIKey = key;
+            Properties.Settings.Default.Save();
+
+            MessageBox.Show("Successfully saved \"" + key + "\" as the TotalVirus API Key");
+        }
     }
 }
