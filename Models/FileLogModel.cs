@@ -14,7 +14,7 @@ namespace File_Processor.Models
         public List<CategoryMergedModel> flaggedCategories { get; set; }
         public bool error { get; set; }
         public string message { get; set; }
-        public bool delete { get; set; }
+        public bool deduplicated { get; set; }
 
         public FileLogModel() : this("")
         {
@@ -28,7 +28,7 @@ namespace File_Processor.Models
             destinationPath = "";
             flaggedCategories = new List<CategoryMergedModel>();
             error = false;
-            delete = false;
+            deduplicated = false;
             message = "";
         }
     }

@@ -38,16 +38,14 @@ namespace File_Processor.Services
             return flaggedCategories;
         }
 
-        public override bool deduplicationFile(FileModel file)
+        public override bool deduplicationFile(FileModel file, String destinationDirectory)
         {
-            int ind = file.filePath.LastIndexOf('\\');
-            DirectoryModel directory = new DirectoryModel(file.filePath.Substring(0, ind), "");
+            DirectoryModel directory = new DirectoryModel(destinationDirectory, "");
             var filesInDirectory = Directory.GetFiles(directory.directoryPath).Select(f => new FileInfo(f));
 
-            bool exists = false;
+            bool deduplicated = false;
             bool useName = Properties.Settings.Default.UseFileNameDeduplication;
             bool useContent = Properties.Settings.Default.UseFileContentDeduplication;
-            int sameContent = 0;
 
             foreach (FileInfo fileInfo in filesInDirectory)
             {
@@ -55,25 +53,21 @@ namespace File_Processor.Services
                 {
                     if (file.fileName.Equals(fileInfo.Name))
                     {
-                        exists = true;
-                        break;
+                        File.Delete(fileInfo.FullName);
+                        deduplicated = true;
                     }
                 }
                 if (useContent)
                 {
                     if (file.fileHash.Equals(FileToHash(fileInfo.FullName)))
                     {
-                        sameContent++;
-                        if (sameContent > 1)
-                        {
-                            exists = true;
-                            break;
-                        }
+                        File.Delete(fileInfo.FullName);
+                        deduplicated = true;
                     }
                 }
             }
 
-            return exists;
+            return deduplicated;
         }
     }
 }

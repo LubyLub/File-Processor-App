@@ -51,21 +51,27 @@ namespace File_Processor.Controllers
 
         public FileLogModel ProcessFileStage2(FileModel file, FileLogModel log)
         {
+            int numOfFilesWithSameName = _service.filesWithSameName(log.destinationPath, file);
+            String expectedFinalFilePath = log.destinationPath + "\\";
+
             //Deduplicate file based on its destination address
-            if (Properties.Settings.Default.Deduplication) 
+            if (Properties.Settings.Default.Deduplication)
             {
                 try
                 {
-                    log.delete = _service.deduplicationFile(file);
+                    log.deduplicated = _service.deduplicationFile(file, log.destinationPath);
                 }
                 catch (Exception e)
                 {
                     log.error = true;
+                    return log;
                 }
             }
 
-            //Encrypt File if required
-            if (Properties.Settings.Default.Security && Properties.Settings.Default.FileEncryption) { _service.encryptFile(file); }
+            if ((log.deduplicated && Properties.Settings.Default.UseFileNameDeduplication) || numOfFilesWithSameName == 0) { expectedFinalFilePath += file.fileName; }
+            else { expectedFinalFilePath += (numOfFilesWithSameName + 1) + file.fileName; }
+
+            log.error = _service.moveFile(log.sourcePath + "\\" + file.fileName, expectedFinalFilePath);
 
             return log;
         }

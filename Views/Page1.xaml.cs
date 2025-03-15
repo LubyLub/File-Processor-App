@@ -112,7 +112,6 @@ namespace File_Processor.Views
                 if (!file.ignore)
                 {
                     var log = await fileController.ProcessFileStage1(file);
-                    bool faulyMove = false;
 
                     //Choose destination path of file based on return categories (log.flaggedCategories)
                     if (!log.error)
@@ -125,42 +124,13 @@ namespace File_Processor.Views
                         }
                         else if (log.flaggedCategories.Count == 1) { log.destinationPath = log.flaggedCategories[0].filePath; }
                         else { log.destinationPath = log.sourcePath; }
-                        //End of destination path decision
-
-                        //Move file into destination path
-                        try
-                        {
-                            File.Move(log.sourcePath + "\\" + file.fileName, log.destinationPath + "\\" + file.fileHash + file.fileName);
-                            file.filePath = log.destinationPath + "\\" + file.fileName;
-                            faulyMove = true;
-                        }
-                        catch (Exception ex)
-                        {
-                            log.error = true;
-                        }
                     }
+                    //End of destination path decision
 
                     if (!log.error) { fileController.ProcessFileStage2(file, log); }
                     //If either stage1 or stage2 cause a log.error, break
-                    if (!log.error)
-                    {
-                        try
-                        {
-                            if (!log.delete) { File.Move(log.destinationPath + "\\" + file.fileHash + file.fileName, file.filePath); }
-                            else { File.Delete(log.destinationPath + "\\" + file.fileHash + file.fileName); }
-                            faulyMove = false;
-                        }
-                        catch (Exception ex)
-                        {
-                            log.error = true;
-                        }
-                    }
                     if (log.error)
                     {
-                        if (faulyMove) 
-                        {
-                            File.Move(log.destinationPath + "\\" + file.fileHash + file.fileName, log.sourcePath + "\\" + file.fileName);
-                        }
                         MessageBox.Show("Error encountered while processing " + file.fileName);
                         break;
                     }

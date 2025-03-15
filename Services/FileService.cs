@@ -14,6 +14,7 @@ using System.Security.Cryptography;
 using System.Windows.Shapes;
 using System.Text.RegularExpressions;
 using File_Processor.Exceptions;
+using System.IO;
 
 namespace File_Processor.Services
 {
@@ -30,10 +31,10 @@ namespace File_Processor.Services
             FileProcessor fileProcessor = FileProcessorFactory.getProcessor(file.extension);
             return fileProcessor.categorizeFile(file);
         }
-        public bool deduplicationFile(FileModel file)
+        public bool deduplicationFile(FileModel file, String destinationDirectory)
         {
             FileProcessor fileProcessor = FileProcessorFactory.getProcessor(file.extension);
-            return fileProcessor.deduplicationFile(file);
+            return fileProcessor.deduplicationFile(file, destinationDirectory);
         }
 
         public void encryptFile(FileModel file)
@@ -86,6 +87,37 @@ namespace File_Processor.Services
             FileModel file = new FileModel(path, hash, name, extension, last, first);
             Console.WriteLine(file);
             return file;
+        }
+
+        public int filesWithSameName(String directoryPath, FileModel file)
+        {
+            DirectoryModel directory = new DirectoryModel(directoryPath, "");
+            var filesInDirectory = Directory.GetFiles(directory.directoryPath).Select(f => new FileInfo(f));
+
+            int numOfFilesWithSameName = 0;
+
+            foreach (FileInfo fileInfo in filesInDirectory)
+            {
+                if (file.fileName.Equals(fileInfo.Name))
+                {
+                    numOfFilesWithSameName++;
+                }
+            }
+
+            return numOfFilesWithSameName;
+        }
+
+        public bool moveFile(string source, string destination)
+        {
+            try
+            {
+                IO.File.Move(source, destination);
+            }
+            catch (Exception e)
+            {
+                return true;
+            }
+            return false;
         }
     }
 }

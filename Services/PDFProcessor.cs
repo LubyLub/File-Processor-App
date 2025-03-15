@@ -13,8 +13,7 @@ namespace File_Processor.Services
         {
             throw new NotImplementedException();
         }
-
-        public override bool deduplicationFile(FileModel file)
+        public override bool deduplicationFile(FileModel file, string destinationDirectory)
         {
             throw new NotImplementedException();
         }
