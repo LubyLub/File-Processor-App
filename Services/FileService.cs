@@ -31,10 +31,10 @@ namespace File_Processor.Services
             FileProcessor fileProcessor = FileProcessorFactory.getProcessor(file.extension);
             return fileProcessor.categorizeFile(file);
         }
-        public bool deduplicationFile(FileModel file, String destinationDirectory)
+        public bool deduplicationFile(FileModel file, string destinationDirectory, string tempFileName)
         {
             FileProcessor fileProcessor = FileProcessorFactory.getProcessor(file.extension);
-            return fileProcessor.deduplicationFile(file, destinationDirectory);
+            return fileProcessor.deduplicationFile(file, destinationDirectory, tempFileName);
         }
 
         public void encryptFile(FileModel file)
@@ -85,7 +85,6 @@ namespace File_Processor.Services
             DateTime first = IO.File.GetCreationTime(path);
             DateTime last = IO.File.GetLastWriteTime(path);
             FileModel file = new FileModel(path, hash, name, extension, last, first);
-            Console.WriteLine(file);
             return file;
         }
 
@@ -111,10 +110,11 @@ namespace File_Processor.Services
         {
             try
             {
-                IO.File.Move(source, destination);
+                IO.File.Move(source, destination, true);
             }
             catch (Exception e)
             {
+                Console.WriteLine(e.StackTrace);
                 return true;
             }
             return false;

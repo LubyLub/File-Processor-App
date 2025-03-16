@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
@@ -18,8 +19,43 @@ namespace File_Processor.Services
         }
 
         public abstract List<CategoryMergedModel> categorizeFile(FileModel file);
-        public abstract bool deduplicationFile(FileModel file, String destinationDirectory);
-        //public abstract Task<bool> malwareAnalysisOfFile(FileModel file);
+        public bool deduplicationFile(FileModel file, string destinationDirectory, string tempFileName)
+        {
+            if (file.fileName.Equals(tempFileName)) { tempFileName = ""; }
+            DirectoryModel directory = new DirectoryModel(destinationDirectory, "");
+            var filesInDirectory = Directory.GetFiles(directory.directoryPath).Select(f => new FileInfo(f));
+
+            bool deduplicated = false;
+            bool useName = Properties.Settings.Default.UseFileNameDeduplication;
+            bool useContent = Properties.Settings.Default.UseFileContentDeduplication;
+
+            foreach (FileInfo fileInfo in filesInDirectory)
+            {
+                bool delete = false;
+                if (useName)
+                {
+                    if (file.fileName.Equals(fileInfo.Name))
+                    {
+                        delete = true;
+                    }
+                }
+                if (useContent)
+                {
+                    if (file.fileHash.Equals(FileToHash(fileInfo.FullName)))
+                    {
+                        if (!fileInfo.Name.Equals(tempFileName)) { delete = true; }
+                    }
+                }
+
+                if (delete)
+                {
+                    File.Delete(fileInfo.FullName);
+                    deduplicated = true;
+                }
+            }
+
+            return deduplicated;
+        }
 
         private protected String readWholeFile(string path)
         {

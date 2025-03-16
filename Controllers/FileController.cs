@@ -46,20 +46,27 @@ namespace File_Processor.Controllers
             if (!log.error) { log.flaggedCategories = _service.categorizeFile(file); }
             else { log.flaggedCategories = new List<CategoryMergedModel>(); }
 
-                return log;
+            return log;
         }
 
         public FileLogModel ProcessFileStage2(FileModel file, FileLogModel log)
         {
             int numOfFilesWithSameName = _service.filesWithSameName(log.destinationPath, file);
             String expectedFinalFilePath = log.destinationPath + "\\";
+            string tempName = file.fileName;
+
+            if (log.sourcePath.Equals(log.destinationPath)) 
+            {
+                tempName = (numOfFilesWithSameName + 1) + file.fileName;
+                _service.moveFile(log.sourcePath + "\\" + file.fileName, log.sourcePath + "\\" + tempName);
+            }
 
             //Deduplicate file based on its destination address
             if (Properties.Settings.Default.Deduplication)
             {
                 try
                 {
-                    log.deduplicated = _service.deduplicationFile(file, log.destinationPath);
+                    log.deduplicated = _service.deduplicationFile(file, log.destinationPath, tempName);
                 }
                 catch (Exception e)
                 {
@@ -68,10 +75,10 @@ namespace File_Processor.Controllers
                 }
             }
 
-            if ((log.deduplicated && Properties.Settings.Default.UseFileNameDeduplication) || numOfFilesWithSameName == 0) { expectedFinalFilePath += file.fileName; }
+            if ((log.deduplicated && Properties.Settings.Default.UseFileNameDeduplication) || numOfFilesWithSameName < 2) { expectedFinalFilePath += file.fileName; }
             else { expectedFinalFilePath += (numOfFilesWithSameName + 1) + file.fileName; }
 
-            log.error = _service.moveFile(log.sourcePath + "\\" + file.fileName, expectedFinalFilePath);
+            log.error = _service.moveFile(log.sourcePath + "\\" + tempName, expectedFinalFilePath);
 
             return log;
         }

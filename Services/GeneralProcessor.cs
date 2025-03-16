@@ -37,37 +37,5 @@ namespace File_Processor.Services
 
             return flaggedCategories;
         }
-
-        public override bool deduplicationFile(FileModel file, String destinationDirectory)
-        {
-            DirectoryModel directory = new DirectoryModel(destinationDirectory, "");
-            var filesInDirectory = Directory.GetFiles(directory.directoryPath).Select(f => new FileInfo(f));
-
-            bool deduplicated = false;
-            bool useName = Properties.Settings.Default.UseFileNameDeduplication;
-            bool useContent = Properties.Settings.Default.UseFileContentDeduplication;
-
-            foreach (FileInfo fileInfo in filesInDirectory)
-            {
-                if (useName)
-                {
-                    if (file.fileName.Equals(fileInfo.Name))
-                    {
-                        File.Delete(fileInfo.FullName);
-                        deduplicated = true;
-                    }
-                }
-                if (useContent)
-                {
-                    if (file.fileHash.Equals(FileToHash(fileInfo.FullName)))
-                    {
-                        File.Delete(fileInfo.FullName);
-                        deduplicated = true;
-                    }
-                }
-            }
-
-            return deduplicated;
-        }
     }
 }

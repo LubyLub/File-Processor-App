@@ -128,6 +128,7 @@ namespace File_Processor.Views
                     //End of destination path decision
 
                     if (!log.error) { fileController.ProcessFileStage2(file, log); }
+
                     //If either stage1 or stage2 cause a log.error, break
                     if (log.error)
                     {
