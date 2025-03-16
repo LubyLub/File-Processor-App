@@ -13,6 +13,7 @@ namespace File_Processor.Services
             FileProcessor processor = null;
             if (extension.Equals(".pdf")) { processor = new PDFProcessor(); }
             else if (extension.Equals(".docx")) { processor = new DocxProcessor(); }
+            else if (extension.Equals(".pptx") || extension.Equals(".ppt")) { processor = new PPTProcessor(); }
             else { processor = new GeneralProcessor(); }
             return processor;
         }
