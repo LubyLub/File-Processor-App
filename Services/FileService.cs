@@ -37,11 +37,6 @@ namespace File_Processor.Services
             return fileProcessor.deduplicationFile(file, destinationDirectory, tempFileName);
         }
 
-        public void encryptFile(FileModel file)
-        {
-            
-        }
-
         public async Task<bool> malwareAnalysisOfFile(FileModel file)
         {
             if (!connectedToInternet()) { throw new NoInternetConnectionException(); }

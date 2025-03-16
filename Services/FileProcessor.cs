@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using File_Processor.Models;
 using IO = System.IO;
@@ -18,7 +19,33 @@ namespace File_Processor.Services
             categoryMergedService = new CategoryMergedService();
         }
 
-        public abstract List<CategoryMergedModel> categorizeFile(FileModel file);
+        public List<CategoryMergedModel> categorizeFile(FileModel file)
+        {
+            List<CategoryMergedModel> categories = categoryMergedService.getCategoryAndClassifications();
+            List<CategoryMergedModel> flaggedCategories = new List<CategoryMergedModel>();
+            String fileContents = readWholeFile(file.filePath);
+            foreach (CategoryMergedModel c in categories)
+            {
+                for (int i = 0; i < c.patterns.Count; i++)
+                {
+                    string pattern = c.patterns[i];
+                    if (c.types[i] == ((int)PatternType.Keyword))
+                    {
+                        if (fileContents.Contains(pattern)) { flaggedCategories.Add(c); break; }
+                    }
+                    else
+                    {
+                        Regex r = new Regex(pattern);
+                        Match m = r.Match(fileContents);
+
+                        if (m.Success) { flaggedCategories.Add(c); break; }
+                    }
+                }
+            }
+
+            return flaggedCategories;
+        }
+
         public bool deduplicationFile(FileModel file, string destinationDirectory, string tempFileName)
         {
             if (file.fileName.Equals(tempFileName)) { tempFileName = ""; }
@@ -57,10 +84,7 @@ namespace File_Processor.Services
             return deduplicated;
         }
 
-        private protected String readWholeFile(string path)
-        {
-            return IO.File.ReadAllText(path);
-        }
+        private protected abstract String readWholeFile(string path);
 
         private protected IEnumerable<String> readFile(string path)
         {
