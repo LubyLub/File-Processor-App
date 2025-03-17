@@ -120,6 +120,7 @@ namespace File_Processor.Views
                                 }
                             }
                         }
+                        else { skipMaliciousFile = false; }
                     }
 
 
@@ -141,7 +142,7 @@ namespace File_Processor.Views
                         }
                         //End of destination path decision
 
-                        if (!log.error) { fileController.ProcessFileStage2(file, log); }
+                        if (!log.error) { fileController.ProcessFileStage3(file, log); }
 
                         //If either stage1 or stage2 cause a log.error, break
                         if (log.error)
@@ -170,7 +171,7 @@ namespace File_Processor.Views
             files = new List<FileModel>();
             lastRefreshed = Properties.Settings.Default.LastChecked;
             LoadFiles();
-            //Properties.Settings.Default.Save();
+            Properties.Settings.Default.Save();
         }
 
         private Task<bool> maliciousWindow(FileModel file, FileLogModel log)
