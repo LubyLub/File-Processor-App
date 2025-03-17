@@ -98,31 +98,57 @@ namespace File_Processor.Views
             while (files.Count > 0)
             {
                 FileModel file = files.First();
+                bool skipMaliciousFile = true;
                 if (!file.ignore)
                 {
                     var log = await fileController.ProcessFileStage1(file);
 
-                    //Choose destination path of file based on return categories (log.flaggedCategories)
                     if (!log.error)
                     {
-                        if (log.flaggedCategories.Count > 1)
+                        if (log.isMalicious)
                         {
-                            //Create and await for window to select among multiple categories
-                            bool result = await multipleCategoryWindow(file, log);
-                            if (!result) { log.error = true; }
+                            bool result = await maliciousWindow(file, log);
+                            if (result)
+                            {
+                                if (log.maliciousAction == 1) { skipMaliciousFile = false; }
+                                if (log.maliciousAction == 2)
+                                {
+                                    if (!fileController.deleteMaliciousFile(file))
+                                    {
+                                        MessageBox.Show("File Could not be deleted");
+                                    }
+                                }
+                            }
                         }
-                        else if (log.flaggedCategories.Count == 1) { log.destinationPath = log.flaggedCategories[0].filePath; }
-                        else { log.destinationPath = log.sourcePath; }
                     }
-                    //End of destination path decision
 
-                    if (!log.error) { fileController.ProcessFileStage2(file, log); }
 
-                    //If either stage1 or stage2 cause a log.error, break
-                    if (log.error)
+                    if (!skipMaliciousFile)
                     {
-                        MessageBox.Show("Error encountered while processing " + file.fileName);
-                        break;
+                        if (!log.error) { fileController.ProcessFileStage2(file, log); }
+
+                        //Choose destination path of file based on return categories (log.flaggedCategories)
+                        if (!log.error)
+                        {
+                            if (log.flaggedCategories.Count > 1)
+                            {
+                                //Create and await for window to select among multiple categories
+                                bool result = await multipleCategoryWindow(file, log);
+                                if (!result) { log.error = true; }
+                            }
+                            else if (log.flaggedCategories.Count == 1) { log.destinationPath = log.flaggedCategories[0].filePath; }
+                            else { log.destinationPath = log.sourcePath; }
+                        }
+                        //End of destination path decision
+
+                        if (!log.error) { fileController.ProcessFileStage2(file, log); }
+
+                        //If either stage1 or stage2 cause a log.error, break
+                        if (log.error)
+                        {
+                            MessageBox.Show("Error encountered while processing " + file.fileName);
+                            break;
+                        }
                     }
                 }
                 files.Remove(file);
@@ -145,6 +171,17 @@ namespace File_Processor.Views
             lastRefreshed = Properties.Settings.Default.LastChecked;
             LoadFiles();
             //Properties.Settings.Default.Save();
+        }
+
+        private Task<bool> maliciousWindow(FileModel file, FileLogModel log)
+        {
+            MaliciousWindow win = new MaliciousWindow(file, log);
+            var task = new TaskCompletionSource<bool>();
+            win.Owner = Application.Current.MainWindow;
+            win.Closed += (s, a) => { task.SetResult(true); };
+            win.Show();
+            win.Focus();
+            return task.Task;
         }
 
         private Task<bool> multipleCategoryWindow(FileModel file, FileLogModel log)

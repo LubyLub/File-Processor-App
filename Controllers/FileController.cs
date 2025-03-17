@@ -26,7 +26,6 @@ namespace File_Processor.Controllers
 
         public async Task<FileLogModel> ProcessFileStage1(FileModel file)
         {
-            //Remember to implement a logging system using either strings or a Log class
             FileLogModel log = new FileLogModel(file.filePath.Substring(0, file.filePath.LastIndexOf('\\')));
 
             //Run Malware Analysis
@@ -42,14 +41,18 @@ namespace File_Processor.Controllers
                 }
             }
 
-            //Find related categories
-            if (!log.error) { log.flaggedCategories = _service.categorizeFile(file); }
-            else { log.flaggedCategories = new List<CategoryMergedModel>(); }
-
             return log;
         }
 
         public FileLogModel ProcessFileStage2(FileModel file, FileLogModel log)
+        {
+            //Find related categories
+            log.flaggedCategories = _service.categorizeFile(file);
+
+            return log;
+        }
+
+        public FileLogModel ProcessFileStage3(FileModel file, FileLogModel log)
         {
             int numOfFilesWithSameName = _service.filesWithSameName(log.destinationPath, file);
             String expectedFinalFilePath = log.destinationPath + "\\";
@@ -86,6 +89,11 @@ namespace File_Processor.Controllers
         public FileModel FileToFileModel(FileInfo fileInfo)
         {
             return _service.PathToFileModel(fileInfo.FullName, fileInfo.Extension);
+        }
+
+        public bool deleteMaliciousFile(FileModel file)
+        {
+            return _service.deleteMaliciousFile(file);
         }
     }
 }

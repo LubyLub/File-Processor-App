@@ -15,6 +15,7 @@ namespace File_Processor.Models
         public bool error { get; set; }
         public string message { get; set; }
         public bool deduplicated { get; set; }
+        public int maliciousAction { get; set; } //0 is ignore, 1 is process, 2 is delete
 
         public FileLogModel() : this("")
         {
@@ -29,6 +30,7 @@ namespace File_Processor.Models
             flaggedCategories = new List<CategoryMergedModel>();
             error = false;
             deduplicated = false;
+            maliciousAction = 0;
             message = "";
         }
     }

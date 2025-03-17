@@ -114,5 +114,18 @@ namespace File_Processor.Services
             }
             return false;
         }
+
+        public bool deleteMaliciousFile(FileModel file)
+        {
+            try
+            {
+                IO.File.Delete(file.filePath);
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+            return true;
+        }
     }
 }
