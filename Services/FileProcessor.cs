@@ -46,10 +46,10 @@ namespace File_Processor.Services
             return flaggedCategories;
         }
 
-        public bool deduplicationFile(FileModel file, string destinationDirectory, string tempFileName)
+        public bool deduplicationFile(FileModel file, FileLogModel log, string tempFileName)
         {
             if (file.fileName.Equals(tempFileName)) { tempFileName = ""; }
-            DirectoryModel directory = new DirectoryModel(destinationDirectory, "");
+            DirectoryModel directory = new DirectoryModel(log.destinationPath, "");
             var filesInDirectory = Directory.GetFiles(directory.directoryPath).Select(f => new FileInfo(f));
 
             bool deduplicated = false;
@@ -77,7 +77,8 @@ namespace File_Processor.Services
                 if (delete)
                 {
                     File.Delete(fileInfo.FullName);
-                    deduplicated = true;
+                    log.deleteFiles.Add(new FileModel(fileInfo.FullName));
+                    log.deduplicated = true;
                 }
             }
 

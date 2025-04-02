@@ -31,10 +31,10 @@ namespace File_Processor.Services
             FileProcessor fileProcessor = FileProcessorFactory.getProcessor(file.extension);
             return fileProcessor.categorizeFile(file);
         }
-        public bool deduplicationFile(FileModel file, string destinationDirectory, string tempFileName)
+        public bool deduplicationFile(FileModel file, FileLogModel log, string tempFileName)
         {
             FileProcessor fileProcessor = FileProcessorFactory.getProcessor(file.extension);
-            return fileProcessor.deduplicationFile(file, destinationDirectory, tempFileName);
+            return fileProcessor.deduplicationFile(file, log, tempFileName);
         }
 
         public async Task<bool> malwareAnalysisOfFile(FileModel file)

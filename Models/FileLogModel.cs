@@ -16,7 +16,7 @@ namespace File_Processor.Models
         public string message { get; set; }
         public bool deduplicated { get; set; }
         public int maliciousAction { get; set; } //0 is ignore, 1 is process, 2 is delete
-
+        public List<FileModel> deleteFiles { get; set; }
         public FileLogModel() : this("")
         {
             
@@ -31,6 +31,7 @@ namespace File_Processor.Models
             error = false;
             deduplicated = false;
             maliciousAction = 0;
+            deleteFiles = new List<FileModel>();
             message = "";
         }
     }

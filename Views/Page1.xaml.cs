@@ -142,7 +142,11 @@ namespace File_Processor.Views
                         }
                         //End of destination path decision
 
-                        if (!log.error) { fileController.ProcessFileStage3(file, log); }
+                        if (!log.error)
+                        {
+                            fileController.ProcessFileStage3(file, log);
+                            adjustFilesList(log);
+                        }
 
                         //If either stage1 or stage2 cause a log.error, break
                         if (log.error)
@@ -172,6 +176,15 @@ namespace File_Processor.Views
             lastRefreshed = Properties.Settings.Default.LastChecked;
             LoadFiles();
             Properties.Settings.Default.Save();
+        }
+
+        private void adjustFilesList(FileLogModel log)
+        {
+            //Adjusts Files list based on deduplication preformed
+            foreach (FileModel deletedFile in log.deleteFiles) {
+                files.RemoveAll(f => new FileModelPathComparer().Equals(f, deletedFile));
+                Console.WriteLine("Deleted " + deletedFile.filePath);
+            }
         }
 
         private Task<bool> maliciousWindow(FileModel file, FileLogModel log)

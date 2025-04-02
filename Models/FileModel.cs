@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -27,9 +28,19 @@ namespace File_Processor.Models
             this.ignore = false;
         }
 
+        internal FileModel(string filePath) : this(filePath, "", "", "", DateTime.MinValue, DateTime.MinValue) { }
+
         public override string ToString()
         {
             return "Name: " + fileName + " | Path: " + filePath + " | Last Modified: " + lastModified + " | Hash: " + fileHash;
+        }
+
+        public override bool Equals(object? obj)
+        {
+            if (obj == this) { return true; }
+            if (obj == null || !GetType().Equals(obj.GetType())) { return false; }
+            FileModel other = (FileModel)obj;
+            return other.filePath == this.filePath && other.fileHash == this.fileHash;
         }
     }
 }

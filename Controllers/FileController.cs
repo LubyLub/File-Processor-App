@@ -69,7 +69,7 @@ namespace File_Processor.Controllers
             {
                 try
                 {
-                    log.deduplicated = _service.deduplicationFile(file, log.destinationPath, tempName);
+                    _service.deduplicationFile(file, log, tempName);
                 }
                 catch (Exception e)
                 {
