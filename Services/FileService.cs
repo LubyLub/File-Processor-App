@@ -40,6 +40,7 @@ namespace File_Processor.Services
         public async Task<bool> malwareAnalysisOfFile(FileModel file)
         {
             if (!connectedToInternet()) { throw new NoInternetConnectionException(); }
+            Console.WriteLine(file.fileHash);
             var options = new RestClientOptions("https://www.virustotal.com/api/v3/files/" + file.fileHash);
             var client = new RestClient(options);
             var request = new RestRequest("");
@@ -130,7 +131,7 @@ namespace File_Processor.Services
 
         public bool validateFile(FileModel file)
         {
-            return Directory.Exists(IO.Path.GetDirectoryName(file.filePath));
+            return Directory.Exists(IO.Path.GetDirectoryName(file.filePath)) && IO.File.Exists(file.filePath);
         }
     }
 }

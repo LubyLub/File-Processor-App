@@ -13,7 +13,7 @@ namespace File_Processor.Views
     public partial class Page1 : Page
     {
         private List<FileModel> files;
-        private DateTime lastRefreshed;
+        private DateTime lastProcessed;
         private DirectoryController directoryController;
         private FileController fileController;
         public Page1()
@@ -22,7 +22,7 @@ namespace File_Processor.Views
             files = new List<FileModel>();
             directoryController = new DirectoryController();
             fileController = new FileController();
-            lastRefreshed = Properties.Settings.Default.LastChecked;
+            lastProcessed = Properties.Settings.Default.LastChecked;
             fileDataGrid.AutoGenerateColumns = false;
 
             LoadFiles();
@@ -36,25 +36,13 @@ namespace File_Processor.Views
 
         private void Refresh_Files(object sender, RoutedEventArgs e)
         {
-            validateExistingFiles();
             LoadFiles();
         }
-        internal void validateExistingFiles()
-        {
-            for (int i = files.Count - 1; i >= 0; i--)
-            {
-                FileModel file = files[i];
-                if (!fileController.validateFile(file))
-                {
-                    files.RemoveAt(i);
-                }
-            }
-        }
+       
         internal void LoadFiles()
         {
-            DateTime temp = DateTime.Now;
-            GetFiles(lastRefreshed);
-            lastRefreshed = temp;
+            files = new List<FileModel>();
+            GetFiles(lastProcessed);
             fileDataGrid.ItemsSource = null;
             fileDataGrid.ItemsSource = files;
         }
@@ -68,7 +56,7 @@ namespace File_Processor.Views
             {
                 var newFiles = Directory.GetFiles(directory.directoryPath)
                 .Select(f => new FileInfo(f))
-                .Where(f => f.LastWriteTime >= lastRefreshed)
+                .Where(f => f.LastWriteTime >= lastProcessed)
                 .ToList();
 
                 foreach (var file in newFiles)
@@ -185,7 +173,7 @@ namespace File_Processor.Views
                 Properties.Settings.Default.LastChecked = dateTimeOfClick;
             }
             files = new List<FileModel>();
-            lastRefreshed = Properties.Settings.Default.LastChecked;
+            lastProcessed = Properties.Settings.Default.LastChecked;
             LoadFiles();
             Properties.Settings.Default.Save();
         }

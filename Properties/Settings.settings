@@ -23,9 +23,6 @@
     <Setting Name="MalwareAnalysis" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
-    <Setting Name="FileEncryption" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">False</Value>
-    </Setting>
     <Setting Name="TotalVirusAPIKey" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>

@@ -90,7 +90,6 @@
                 <StackPanel>
                     <CheckBox Name="UseSecurity" Content="Enable Security" Click="UserSettingChange_Click" Margin="10,10,0,0" Width="200" HorizontalAlignment="Left"/>
                     <CheckBox Name="MalewareAnalysisCheckBox" Content="Enable Malware Analysis" Click="UserSettingChange_Click" Margin="10,10,0,0" Width="200" HorizontalAlignment="Left"/>
-                    <CheckBox Name="EncryptionCheckBox" Content="Enable Sensitive File Encryption" Click="UserSettingChange_Click" Margin="10,10,0,0" Width="200" HorizontalAlignment="Left"/>
                     <!--<TextBox x:Name="categoryName" Height="22" Padding="0,0,0,0" Margin="250,-65,0,0" TextWrapping="Wrap" Text="Input VirusTotal API Key" Width="350"/>-->
                     <TextBox Name="APIKey" Height="22" Padding="0,0,0,0" Margin="10,15,0,0" TextWrapping="Wrap" Text="Input VirusTotal API Key" Width="350" HorizontalAlignment="Left"/>
                     <Button Name="APIKeyButton" Content="Save Key" Click="APIKeyButton_Click" Width="100" Height="20" Margin="380,-22,0,0" HorizontalAlignment="Left"></Button>

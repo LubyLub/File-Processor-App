@@ -109,18 +109,6 @@ namespace File_Processor.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool FileEncryption {
-            get {
-                return ((bool)(this["FileEncryption"]));
-            }
-            set {
-                this["FileEncryption"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("")]
         public string TotalVirusAPIKey {
             get {

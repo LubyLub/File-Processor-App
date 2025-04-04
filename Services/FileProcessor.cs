@@ -6,6 +6,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using File_Processor.Controllers;
 using File_Processor.Models;
 using IO = System.IO;
 
@@ -13,15 +14,15 @@ namespace File_Processor.Services
 {
     internal abstract class FileProcessor
     {
-        private protected CategoryMergedService categoryMergedService;
+        private protected CategoryMergedController categoryMergedController;
         internal FileProcessor()
         {
-            categoryMergedService = new CategoryMergedService();
+            categoryMergedController = new CategoryMergedController();
         }
 
         public List<CategoryMergedModel> categorizeFile(FileModel file)
         {
-            List<CategoryMergedModel> categories = categoryMergedService.getCategoryAndClassifications();
+            List<CategoryMergedModel> categories = categoryMergedController.getCategories();
             List<CategoryMergedModel> flaggedCategories = new List<CategoryMergedModel>();
             String fileContents = readWholeFile(file.filePath);
             foreach (CategoryMergedModel c in categories)

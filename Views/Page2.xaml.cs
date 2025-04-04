@@ -49,7 +49,6 @@ namespace File_Processor.Views
             UseFileContentForDeduplication.IsChecked = Properties.Settings.Default.UseFileContentDeduplication;
             UseSecurity.IsChecked = Properties.Settings.Default.Security;
             MalewareAnalysisCheckBox.IsChecked = Properties.Settings.Default.MalwareAnalysis;
-            EncryptionCheckBox.IsChecked = Properties.Settings.Default.FileEncryption;
         }
 
         private void Change_To_Main_Page(object sender, RoutedEventArgs e)
@@ -178,10 +177,6 @@ namespace File_Processor.Views
             else if (setting.Equals(MalewareAnalysisCheckBox))
             {
                 Properties.Settings.Default.MalwareAnalysis = (bool)setting.IsChecked;
-            }
-            else if (setting.Equals(EncryptionCheckBox))
-            {
-                Properties.Settings.Default.FileEncryption = (bool)setting.IsChecked;
             }
             Properties.Settings.Default.Save();
         }
