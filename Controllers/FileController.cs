@@ -97,5 +97,10 @@ namespace File_Processor.Controllers
         {
             return _service.deleteMaliciousFile(file);
         }
+
+        public bool validateFile(FileModel file)
+        {
+            return _service.validateFile(file);
+        }
     }
 }

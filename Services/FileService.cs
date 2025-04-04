@@ -127,5 +127,10 @@ namespace File_Processor.Services
             }
             return true;
         }
+
+        public bool validateFile(FileModel file)
+        {
+            return Directory.Exists(IO.Path.GetDirectoryName(file.filePath));
+        }
     }
 }

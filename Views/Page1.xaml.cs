@@ -44,7 +44,7 @@ namespace File_Processor.Views
             for (int i = files.Count - 1; i >= 0; i--)
             {
                 FileModel file = files[i];
-                if (!Directory.Exists(Path.GetDirectoryName(file.filePath)))
+                if (!fileController.validateFile(file))
                 {
                     files.RemoveAt(i);
                 }
