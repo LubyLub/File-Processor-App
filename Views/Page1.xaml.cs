@@ -36,7 +36,19 @@ namespace File_Processor.Views
 
         private void Refresh_Files(object sender, RoutedEventArgs e)
         {
+            validateExistingFiles();
             LoadFiles();
+        }
+        internal void validateExistingFiles()
+        {
+            for (int i = files.Count - 1; i >= 0; i--)
+            {
+                FileModel file = files[i];
+                if (!Directory.Exists(Path.GetDirectoryName(file.filePath)))
+                {
+                    files.RemoveAt(i);
+                }
+            }
         }
         internal void LoadFiles()
         {
@@ -148,7 +160,7 @@ namespace File_Processor.Views
                             adjustFilesList(log);
                         }
 
-                        //If either stage1 or stage2 cause a log.error, break
+                        //If either stage2 or stage3 cause a log.error, break
                         if (log.error)
                         {
                             MessageBox.Show("Error encountered while processing " + file.fileName);

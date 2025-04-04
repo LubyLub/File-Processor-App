@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.IO;
 using File_Processor.Models;
 using File_Processor.Services;
 
@@ -36,7 +32,19 @@ namespace File_Processor.Controllers
 
         public List<DirectoryModel> GetDirectories()
         {
-            return _service.GetDirectoriesFromDb();
+            List<DirectoryModel> dirs = _service.GetDirectoriesFromDb();
+
+            for (int i = dirs.Count - 1; i >= 0; i--)
+            {
+                DirectoryModel dir = dirs[i];
+                if (!Directory.Exists(dir.directoryPath))
+                {
+                    dirs.RemoveAt(i);
+                    RemoveDirectory(dir.directoryPath);
+                }
+            }
+
+            return dirs;
         }
     }
 }

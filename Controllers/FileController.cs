@@ -28,6 +28,8 @@ namespace File_Processor.Controllers
         {
             FileLogModel log = new FileLogModel(file.filePath.Substring(0, file.filePath.LastIndexOf('\\')));
 
+            if (!Directory.Exists(log.sourcePath)) { log.error = true; return log; }
+
             //Run Malware Analysis
             if (Properties.Settings.Default.Security && Properties.Settings.Default.MalwareAnalysis) 
             {
